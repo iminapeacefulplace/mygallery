@@ -104,15 +104,20 @@
             margin-bottom: 8px;
         }
 
-        /* 💡 Contactセクションの画面中央配置 */
-        #contact .content-box {
+        /* 💡 Contactセクション専用：画面の完全な中央に配置する設定 */
+        .contact-center-wrap {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            z-index: 10;
+            width: auto;
             text-align: center;
-            z-index: 2;
         }
 
         /* 💡 スマートフォン版：ヘッダーボタン配置・ゲーム被り防止・要素順序の最適化 */
@@ -126,7 +131,7 @@
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                padding: 20px 24px; /* 右下のメニュー項目と端を揃えるためのパディング設定 */
+                padding: 20px 24px;
                 box-sizing: border-box;
                 z-index: 1000;
             }
@@ -136,7 +141,7 @@
                 letter-spacing: 0.05em;
             }
 
-            /* スマホ用ヘッダー内のコントロールコンテナ（右上に配置し、メニューの右端と同期） */
+            /* スマホ用ヘッダー内のコントロールコンテナ */
             .header-mobile-controls {
                 display: none; /* 初期非表示。Gameセクション有効時にJSでflex化 */
                 align-items: center;
@@ -164,12 +169,10 @@
                 justify-content: center;
             }
             
-            /* スタート・ストップの境界線 */
             #btn-header-start {
                 border-right: 1px solid rgba(255, 255, 255, 0.2);
             }
 
-            /* OPTIONボタンは独立した枠線を持たせる */
             #btn-header-option {
                 border: 1px solid rgba(255, 255, 255, 0.3);
             }
@@ -183,7 +186,7 @@
                 display: none !important;
             }
             
-            /* ラッパー：Kotaro Okabeのすぐ下にゲーム画面を安全に配置 */
+            /* ラッパー：ロゴのすぐ下にゲーム画面を安全に配置 */
             .game-wrapper {
                 display: flex;
                 flex-direction: column;
@@ -191,12 +194,12 @@
                 justify-content: flex-start;
                 height: 100vh; 
                 width: 100vw;
-                padding-top: 85px; /* ロゴのすぐ下を基準にするための絶妙なトップマージン */
+                padding-top: 85px;
                 box-sizing: border-box;
                 gap: 10px;
             }
 
-            /* テトリス本体の縮小と位置固定（パーツ競合の根本排除） */
+            /* テトリス本体の縮小と位置固定 */
             .game-container {
                 transform: scale(0.82); 
                 transform-origin: top center;
@@ -403,12 +406,11 @@
 
         <section id="contact" class="page">
             <div class="fullscreen-bg"><img src="main-contact.jpg" alt="Contactメイン画像"></div>
-            <div class="content-box">
-                <h1></h1>
-                <div class="contact-links" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-                    <a href="mailto:ommatokoita@gmail.com" class="contact-item" style="display: block; color: #fff; text-decoration: none; font-size: 1.2rem; opacity: 0.8; transition: opacity 0.3s; letter-spacing: 0.15em;">Email</a>
-                    <a href="#" onclick="window.open('https://instagram.com/iminapeacefulplace', '_blank', 'noopener,noreferrer'); return false;" class="contact-item" style="display: block; color: #fff; text-decoration: none; font-size: 1.2rem; opacity: 0.8; transition: opacity 0.3s; letter-spacing: 0.15em;">Instagram</a>
-                </div>
+            
+            <!-- 💡 ここが完全に画面中央に表示されるように戻したパーツです -->
+            <div class="contact-center-wrap">
+                <a href="mailto:ommatokoita@gmail.com" class="contact-item" style="display: block; color: #fff; text-decoration: none; font-size: 1.2rem; opacity: 0.8; transition: opacity 0.3s; letter-spacing: 0.15em;">Email</a>
+                <a href="#" onclick="window.open('https://instagram.com/iminapeacefulplace', '_blank', 'noopener,noreferrer'); return false;" class="contact-item" style="display: block; color: #fff; text-decoration: none; font-size: 1.2rem; opacity: 0.8; transition: opacity 0.3s; letter-spacing: 0.15em;">Instagram</a>
             </div>
         </section>
     </main>
@@ -689,14 +691,12 @@
     // ==========================================================================
     // 🎮 コントロールイベント定義（PC・スマホ同期処理）
     // ==========================================================================
-    // 難易度切り替えロジック
     const modeButtons = document.querySelectorAll('.mode-btn');
     modeButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
             modeButtons.forEach(b => b.classList.remove('active'));
             const targetSpeed = parseInt(btn.getAttribute('data-speed'), 10);
             
-            // 全ての同一難易度ボタンをアクティブにする（PC・スマホ連動）
             document.querySelectorAll(`.mode-btn[data-speed="${targetSpeed}"]`).forEach(b => b.classList.add('active'));
             currentSpeed = targetSpeed;
 
@@ -707,21 +707,16 @@
         });
     });
 
-    // START / STOP ボタン処理（PC側）
     document.getElementById('btn-pc-start')?.addEventListener('click', startTetris);
     document.getElementById('btn-pc-stop')?.addEventListener('click', stopTetris);
-
-    // START / STOP ボタン処理（スマホヘッダー側）
     document.getElementById('btn-header-start')?.addEventListener('click', startTetris);
     document.getElementById('btn-header-stop')?.addEventListener('click', stopTetris);
 
-    // スマホ用仮想十字キー操作
     document.getElementById('btn-left')?.addEventListener('click', () => { if(!isPaused && !isGameOver) p.moveLeft(); });
     document.getElementById('btn-right')?.addEventListener('click', () => { if(!isPaused && !isGameOver) p.moveRight(); });
     document.getElementById('btn-rotate')?.addEventListener('click', () => { if(!isPaused && !isGameOver) p.rotate(); });
     document.getElementById('btn-down')?.addEventListener('click', () => { if(!isPaused && !isGameOver) p.moveDown(); });
 
-    // PCキーボード操作
     document.addEventListener('keydown', (e) => {
         const gameSec = document.getElementById('game');
         if (!gameSec || !gameSec.classList.contains('active')) return;
