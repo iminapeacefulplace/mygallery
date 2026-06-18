@@ -41,16 +41,17 @@
                 right: 0 !important;
             }
             
-            /* 💡【修正】ゲーム画面：テトリスを画面の中央に完全配置 */
+            /* 💡【修正】ゲーム画面：テトリスを画面の中央上部に配置 */
             .game-wrapper {
                 position: relative;
                 display: flex;
                 flex-direction: row;
-                align-items: center;
-                justify-content: center;
+                align-items: flex-start; /* 中央上部に配置するため上詰めに変更 */
+                justify-content: center; /* 左右中央配置 */
                 width: 100%;
                 height: 100vh;
                 margin: 0 auto;
+                padding-top: 120px; /* ヘッダーの下に適度な余白を確保 */
                 box-sizing: border-box;
             }
             .game-container {
@@ -661,26 +662,21 @@
         score = 0; isGameOver = false; isPaused = true; 
         if (scoreElement) scoreElement.innerText = score;
         if (gameOverText) gameOverText.style.display = "none";
-        drawBoard();
         p = randomPiece(); nextP = randomPiece();
-        p.draw(ctx); drawNext();
-        runTimer();
+        drawBoard(); p.draw(ctx); drawNext();
     }
 
-    function runTimer() {
-        stopTetris();
-        gameInterval = setInterval(() => {
-            if (!isPaused && !isGameOver) {
-                p.moveDown();
-            }
-        }, currentSpeed);
+    function startTetris() {
+        if (isGameOver) initTetris();
+        if (isPaused) {
+            isPaused = false;
+            gameInterval = setInterval(() => { p.moveDown(); }, currentSpeed);
+        }
     }
 
     function stopTetris() {
-        if (gameInterval) {
-            clearInterval(gameInterval);
-            gameInterval = null;
-        }
+        isPaused = true;
+        if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
     }
     </script>
 </body>
