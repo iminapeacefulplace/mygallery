@@ -8,11 +8,6 @@
     <title>Kotaro Okabe/岡部 浩太郎</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ==========================================================================
-           🕹️ 画面レイアウト完全固定・センタリング・被り解消スタイル
-           ========================================================================== */
-        
-        /* 💡 画面の上下スワイプによる画像・ゲームのガタつきズレを全画面で100%完全固定 */
         html, body {
             overflow: hidden !important;
             height: 100%;
@@ -33,37 +28,34 @@
             display: block;
         }
 
-        /* 💡【修正】PCホバー演出画像を「画面右側」へ配置 ＆ 横幅拡張 */
         @media (min-width: 769px) {
             .menu-column-overlay {
                 width: 35% !important;
                 left: auto !important;
                 right: 0 !important;
             }
-            
-            /* 💡【修正】ゲーム画面：テトリスを画面の中央に完全配置 */
+
+            /* PC版：ゲームを画面上部寄せに変更 */
             .game-wrapper {
                 position: relative;
                 display: flex;
                 flex-direction: row;
-                align-items: center;
+                align-items: flex-start;      /* 上揃えに変更 */
                 justify-content: center;
                 width: 100%;
                 height: 100vh;
-                margin: 0 auto;
+                padding-top: 80px;            /* ヘッダー下に隙間を確保 */
                 box-sizing: border-box;
             }
             .game-container {
-                margin: 0 auto; /* 中央寄せ */
+                margin: 0 auto;
                 display: flex;
                 align-items: flex-start;
             }
-            /* サイドバーを右側に絶対配置して中央配置に干渉させない */
             .game-sidebar-right {
                 position: absolute;
                 right: 10%;
-                top: 50%;
-                transform: translateY(-50%);
+                top: 80px;                    /* ヘッダー直下から開始 */
                 display: flex;
                 flex-direction: column;
                 gap: 25px;
@@ -75,7 +67,6 @@
             }
         }
 
-        /* システム共通ボタンスタイル */
         .btn-group-row {
             display: flex;
             gap: 10px;
@@ -114,7 +105,6 @@
             margin-bottom: 8px;
         }
 
-        /* 💡【修正】Contactセクション：文字・リンクを画面中央に完全配置 */
         #contact .content-box {
             position: absolute;
             top: 50%;
@@ -123,19 +113,16 @@
             text-align: center;
             width: 100%;
             max-width: 600px;
-            /* 💡 最前面表示対応: 演出用画像や背景よりも手前に配置 */
             z-index: 9999 !important;
             pointer-events: auto !important;
         }
 
-        /* 💡 各コンタクトアイテムも確実にクリック可能にする */
         .contact-item {
             position: relative;
             z-index: 10000 !important;
             pointer-events: auto !important;
         }
 
-        /* 💡【修正】スマートフォン版：ヘッダー・ゲーム位置・十字キー被りの完全排除 */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -151,9 +138,8 @@
                 backdrop-filter: blur(10px);
             }
 
-            /* スマホ用ヘッダー内の一列ボタンコンテナ */
             .header-mobile-controls {
-                display: none; /* Gameセクション時のみJSでflexに変更 */
+                display: none;
                 gap: 6px;
                 margin-top: 2px;
             }
@@ -162,7 +148,7 @@
                 color: rgba(255, 255, 255, 0.8);
                 border: 1px solid rgba(255, 255, 255, 0.3);
                 padding: 4px 10px;
-                font-size: 0.85rem; /* メニューの文字サイズと同期 */
+                font-size: 0.85rem;
                 font-family: inherit;
                 letter-spacing: 0.05em;
                 cursor: pointer;
@@ -171,27 +157,25 @@
             .game-sidebar-right {
                 display: none !important;
             }
-            
-            /* 💡【修正】Kotaro Okabe（ヘッダー）のすぐ下にゲーム画面を配置するラッパー */
+
+            /* スマホ版：ゲームを上部寄せに変更 */
             .game-wrapper {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: flex-start; /* 上詰め配置 */
+                justify-content: flex-start;
                 width: 100%;
                 height: 100vh;
-                padding-top: 105px; /* ヘッダーの直下に綺麗に収まるマージン */
+                padding-top: 75px;            /* ヘッダー直下へ詰める（従来105px→75px） */
                 box-sizing: border-box;
             }
 
-            /* 💡【修正】テトリス本体を適度に縮小し、十字キーとの被りを永久に遮断 */
             .game-container {
-                transform: scale(0.75); 
-                transform-origin: top center; /* 上部基準で縮小し、下部に十分な空きを作る */
+                transform: scale(0.75);
+                transform-origin: top center; /* 上基準で縮小 */
                 margin: 0 auto;
             }
 
-            /* 💡【修正】下部十字キーを画面最下部の安全圏へ配置 */
             .game-controls-mobile {
                 position: fixed;
                 bottom: 40px;
@@ -204,7 +188,6 @@
                 z-index: 90;
             }
 
-            /* スマホ用難易度モーダル */
             .mobile-modal-overlay {
                 position: fixed;
                 top: 0;
@@ -251,7 +234,6 @@
     <div class="custom-arrow-cursor left">←</div>
     <div class="custom-arrow-cursor right">→</div>
 
-    <!-- 演出用画像ブロック（右側配置） -->
     <div class="menu-column-overlay" id="overlay-home"><img src="home-vertical.jpg" alt="Home演出画像"></div>
     <div class="menu-column-overlay" id="overlay-gallery"><img src="gallery-vertical.jpg" alt="Gallery演出画像"></div>
     <div class="menu-column-overlay" id="overlay-game"><img src="game-vertical.jpg" alt="Game演出画像"></div>
@@ -260,7 +242,6 @@
     <header>
         <div class="logo">Kotaro Okabe</div>
         
-        <!-- スマホ版：ロゴのすぐ下に並ぶ一列コントロールボタン（デザイン共通） -->
         <div class="header-mobile-controls" id="mobile-header-actions">
             <button type="button" class="header-mobile-btn" id="btn-header-start">START</button>
             <button type="button" class="header-mobile-btn" id="btn-header-stop">STOP</button>
@@ -278,13 +259,11 @@
     </header>
 
     <main>
-        <!-- Home Section -->
         <section id="home" class="page active">
             <div class="fullscreen-bg"><img src="main-home.jpg" alt="Homeメイン画像"></div>
             <div class="content-box"><h1></h1><p></p></div>
         </section>
 
-        <!-- Gallery Section 💡【修正】21枚すべての画像を完全復旧。3枚目以降も確実に表示されます -->
         <section id="gallery" class="page">
             <div class="gallery-container">
                 <div class="gallery-track">
@@ -313,11 +292,9 @@
             </div>
         </section>
 
-        <!-- Game Section -->
         <section id="game" class="page">
             <div class="game-wrapper">
                 
-                <!-- テトリス基本ユニット -->
                 <div class="game-container">
                     <canvas id="tetris-canvas" width="240" height="480"></canvas>
                     <div class="game-side-panel">
@@ -333,7 +310,6 @@
                     </div>
                 </div>
 
-                <!-- PC専用：右側サイドバー -->
                 <div class="game-sidebar-right">
                     <div>
                         <div class="sidebar-section-title">GAME SYSTEM</div>
@@ -365,7 +341,6 @@
                     </div>
                 </div>
 
-                <!-- スマホ専用：下部十字キー（被り完全排除配置） -->
                 <div class="game-controls-mobile">
                     <button type="button" class="game-btn" id="btn-left">&lt;</button>
                     <button type="button" class="game-btn" id="btn-rotate">R</button>
@@ -375,7 +350,6 @@
 
             </div>
 
-            <!-- スマホ専用：難易度設定ポップアップ -->
             <div class="mobile-modal-overlay" id="mobile-modal">
                 <div class="mobile-modal-content">
                     <button type="button" class="mobile-modal-close" id="btn-modal-close">CLOSE ✕</button>
@@ -396,7 +370,6 @@
 
         </section>
 
-        <!-- Contact Section 💡【修正】インフォメーションを完全画面中央へ配置 ＆ 最前面固定 -->
         <section id="contact" class="page">
             <div class="fullscreen-bg"><img src="main-contact.jpg" alt="Contactメイン画像"></div>
             <div class="content-box">
@@ -410,9 +383,6 @@
     </main>
 
     <script>
-    // ==========================================================================
-    // 1. ナビゲーション ＆ カーソル ＆ ホバー演出ロジック
-    // ==========================================================================
     const navLinks = document.querySelectorAll('.nav-link');
     const pages = document.querySelectorAll('.page');
     const customSquareCursor = document.querySelector('.custom-square-cursor');
@@ -442,7 +412,6 @@
             const targetPage = document.getElementById(targetId);
             if (targetPage) targetPage.classList.add('active');
 
-            // スマホ版：Gameセクションの時だけヘッダーにコントロール群を表示
             if (targetId === 'game') {
                 if (mobileHeaderActions) mobileHeaderActions.style.display = 'flex';
                 initTetris();
@@ -493,7 +462,6 @@
         }
     });
 
-    // スマホ版ヘッダーオプションボタン制御
     const mobileModal = document.getElementById('mobile-modal');
     const btnHeaderOption = document.getElementById('btn-header-option');
     const modalCloseBtn = document.getElementById('btn-modal-close');
@@ -505,9 +473,6 @@
         modalCloseBtn.addEventListener('click', (e) => { e.preventDefault(); mobileModal.classList.remove('show'); });
     }
 
-    // ==========================================================================
-    // 🕹️ ミニマル・テトリスゲームエンジン
-    // ==========================================================================
     const canvas = document.getElementById('tetris-canvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
     const nextCanvas = document.getElementById('next-canvas');
