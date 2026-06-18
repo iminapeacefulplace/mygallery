@@ -16,6 +16,7 @@
 
     <div class="menu-column-overlay" id="overlay-home"><img src="home-vertical.jpg" alt="Home演出画像"></div>
     <div class="menu-column-overlay" id="overlay-gallery"><img src="gallery-vertical.jpg" alt="Gallery演出画像"></div>
+    <div class="menu-column-overlay" id="overlay-game"><div style="width:100%; height:100%; background:#0b0b0b;"></div></div>
     <div class="menu-column-overlay" id="overlay-contact"><img src="contact-vertical.jpg" alt="Contact演出画像"></div>
 
     <header>
@@ -24,6 +25,7 @@
             <ul>
                 <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
                 <li><a href="#" class="nav-link" data-target="gallery">Gallery</a></li>
+                <li><a href="#" class="nav-link" data-target="game">Game</a></li>
                 <li><a href="#" class="nav-link" data-target="contact">Contact</a></li>
             </ul>
         </nav>
@@ -40,7 +42,7 @@
             </div>
         </section>
 
-      <section id="gallery" class="page">
+        <section id="gallery" class="page">
             <div class="gallery-container">
                 <div class="gallery-track">
                     
@@ -91,69 +93,96 @@
                     
                     <div class="gallery-slide">
                         <img src="gallery-10.jpg" alt="作品10">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
 
-					 <div class="gallery-slide">
+                    <div class="gallery-slide">
                         <img src="gallery-11.jpg" alt="作品11">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-12.jpg" alt="作品12">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-13.jpg" alt="作品13">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-14.jpg" alt="作品14">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-15.jpg" alt="作品15">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-16.jpg" alt="作品16">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-17.jpg" alt="作品17">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-18.jpg" alt="作品18">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-19.jpg" alt="作品19">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-20.jpg" alt="作品20">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
-					<div class="gallery-slide">
+                    
+                    <div class="gallery-slide">
                         <img src="gallery-21.jpg" alt="作品21">
-						<div class="work-title">「intermediation」</div>
+                        <div class="work-title">「intermediation」</div>
                     </div>
-					
+                    
                 </div>
             </div>
         </section>
 
-       <section id="contact" class="page">
+        <section id="game" class="page">
+            <div class="game-wrapper">
+                <div class="game-container">
+                    <canvas id="tetris-canvas" width="240" height="480"></canvas>
+                    
+                    <div class="game-side-panel">
+                        <div class="panel-section">
+                            <div class="panel-label">SCORE</div>
+                            <div id="game-score" class="panel-value">0</div>
+                        </div>
+                        <div class="panel-section">
+                            <div class="panel-label">NEXT</div>
+                            <canvas id="next-canvas" width="80" height="80"></canvas>
+                        </div>
+                        <div id="game-over-text" class="panel-value" style="color: #ff3333; font-size: 0.75rem; letter-spacing: 0.1em; margin-top: 20px; display: none;">GAME OVER</div>
+                    </div>
+                </div>
+
+                <div class="game-controls-mobile">
+                    <button type="button" class="game-btn" id="btn-left">&lt;</button>
+                    <button type="button" class="game-btn" id="btn-rotate">R</button>
+                    <button type="button" class="game-btn" id="btn-right">&gt;</button>
+                    <button type="button" class="game-btn" id="btn-down">V</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="page">
             <div class="fullscreen-bg">
                 <img src="main-contact.jpg" alt="Contactメイン画像">
             </div>
@@ -189,9 +218,9 @@
 
     // 2. 状態管理用の変数
     let isHoveringMenu = false;
-    let currentSlideIndex = 0; // 現在表示しているギャラリーの写真番号（0〜9）
-    const totalSlides = 21;    // 写真の総数
-    let lastMouseX = 0;        // マウスの最新の横位置を記憶
+    let currentSlideIndex = 0; 
+    const totalSlides = 21;    
+    let lastMouseX = 0;        
 
     // 制御A：メニューの切り替え ＆ ホバー時の半透明写真演出
     navLinks.forEach(link => {
@@ -217,22 +246,28 @@
                 targetPage.classList.add('active');
             }
 
-            // 💡【最重要修正】Galleryメニューがクリックされた瞬間、確実に1枚目を100%表示にする
+            // 💡Galleryメニューがクリックされた瞬間、確実に1枚目を100%表示にする
             if (targetId === 'gallery') {
-                currentSlideIndex = 0; // カウントを1枚目にリセット
+                currentSlideIndex = 0; 
                 const slides = document.querySelectorAll('.gallery-slide');
                 slides.forEach((slide, idx) => {
                     if (idx === 0) {
-                        slide.classList.add('active'); // 1枚目だけを表示
+                        slide.classList.add('active'); 
                     } else {
-                        slide.classList.remove('active'); // 他は非表示
+                        slide.classList.remove('active'); 
                     }
                 });
+            }
+
+            // 💡Gameメニューがクリックされたとき、テトリスを初期化して開始する
+            if (targetId === 'game') {
+                initTetris();
+            } else {
+                stopTetris(); // 他のページに移ったらタイマーを止めて負荷を下げる
             }
         });
     });
 
-    // メニュー（ヘッダー）の上にマウスがあるかどうかの判定
     headerArea.addEventListener('mouseenter', () => { isHoveringMenu = true; });
     headerArea.addEventListener('mouseleave', () => { isHoveringMenu = false; });
 
@@ -254,11 +289,9 @@
             customArrowCursorRight.style.top = mouseY + 'px';
         }
 
-        // ギャラリー画面がアクティブ、かつメニューを触っていない時
         if (gallerySection && gallerySection.classList.contains('active') && !isHoveringMenu) {
-            if (customSquareCursor) customSquareCursor.style.opacity = '0'; // 通常スクエアを消す
+            if (customSquareCursor) customSquareCursor.style.opacity = '0'; 
 
-            // 画面の中央を境に左右の特大矢印を切り替える
             if (mouseX < windowWidth / 2) {
                 customArrowCursorLeft.classList.add('show');
                 customArrowCursorRight.classList.remove('show');
@@ -279,27 +312,306 @@
             const windowWidth = window.innerWidth;
 
             if (lastMouseX < windowWidth / 2) {
-                // 【前の画像へ戻る】画面の左半分をクリックした場合
                 if (currentSlideIndex > 0) {
                     currentSlideIndex--;
                 }
             } else {
-                // 【次の画像へ進む】画面の右半分をクリックした場合
                 if (currentSlideIndex < totalSlides - 1) {
                     currentSlideIndex++;
                 }
             }
             
-            // すべてのスライドから一旦「active（表示）」の目印を消す
             const slides = document.querySelectorAll('.gallery-slide');
             slides.forEach(slide => slide.classList.remove('active'));
             
-            // 現在表示すべき番号の画像だけに「active」をつけてパッと100%表示させる
             if (slides[currentSlideIndex]) {
                 slides[currentSlideIndex].classList.add('active');
             }
         }
     });
+
+
+    // ==========================================================================
+    // 🕹️ 【新規追加】ミニマル・テトリスゲームエンジン（モノトーン仕様）
+    // ==========================================================================
+    const canvas = document.getElementById('tetris-canvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    const nextCanvas = document.getElementById('next-canvas');
+    const nextCtx = nextCanvas ? nextCanvas.getContext('2d') : null;
+    const scoreElement = document.getElementById('game-score');
+    const gameOverText = document.getElementById('game-over-text');
+
+    const ROW = 20;
+    const COL = 10;
+    const SQ = 24; // 1マスのサイズ(24px * COL(10) = 240px)
+    const VACANT = "#0b0b0b"; // マスの背景色（サイトの漆黒に同期）
+
+    let board = [];
+    let gameInterval = null;
+    let score = 0;
+    let isGameOver = false;
+
+    // ブロック（テトリミノ）の形状定義（モノトーン表現のため全て白ラインで描写）
+    const PIECES = [
+        [ [0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0] ], // I
+        [ [1,0,0],[1,1,1],[0,0,0] ],                 // J
+        [ [0,0,1],[1,1,1],[0,0,0] ],                 // L
+        [ [1,1],[1,1] ],                             // O
+        [ [0,1,1],[1,1,0],[0,0,0] ],                 // S
+        [ [0,1,0],[1,1,1],[0,0,0] ],                 // T
+        [ [1,1,0],[0,1,1],[0,0,0] ]                  // Z
+    ];
+
+    class Piece {
+        constructor(tetromino) {
+            this.tetromino = tetromino;
+            this.activeTetromino = this.tetromino[0];
+            this.tetrominoN = 0;
+            this.x = 3;
+            this.y = -2;
+        }
+
+        draw(targetCtx, offsetX = 0, offsetY = 0, size = SQ) {
+            for (let r = 0; r < this.activeTetromino.length; r++) {
+                for (let c = 0; c < this.activeTetromino[r].length; c++) {
+                    if (this.activeTetromino[r][c]) {
+                        targetCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
+                        targetCtx.fillRect((this.x + c) * size + offsetX, (this.y + r) * size + offsetY, size, size);
+                        targetCtx.strokeStyle = "#0b0b0b";
+                        targetCtx.lineWidth = 1;
+                        targetCtx.strokeRect((this.x + c) * size + offsetX, (this.y + r) * size + offsetY, size, size);
+                    }
+                }
+            }
+        }
+
+        unDraw() {
+            if (!ctx) return;
+            for (let r = 0; r < this.activeTetromino.length; r++) {
+                for (let c = 0; c < this.activeTetromino[r].length; c++) {
+                    if (this.activeTetromino[r][c]) {
+                        const boardY = this.y + r;
+                        const boardX = this.x + c;
+                        if (boardY >= 0) {
+                            ctx.fillStyle = VACANT;
+                            ctx.fillRect(boardX * SQ, boardY * SQ, SQ, SQ);
+                            ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+                            ctx.lineWidth = 1;
+                            ctx.strokeRect(boardX * SQ, boardY * SQ, SQ, SQ);
+                        }
+                    }
+                }
+            }
+        }
+
+        moveDown() {
+            if (this.collision(0, 1, this.activeTetromino)) {
+                this.lock();
+                p = nextP;
+                nextP = randomPiece();
+                drawBoard();
+                p.draw(ctx);
+                drawNext();
+            } else {
+                this.unDraw();
+                this.y++;
+                this.draw(ctx);
+            }
+        }
+
+        moveRight() {
+            if (!this.collision(1, 0, this.activeTetromino)) {
+                this.unDraw();
+                this.x++;
+                this.draw(ctx);
+            }
+        }
+
+        moveLeft() {
+            if (!this.collision(-1, 0, this.activeTetromino)) {
+                this.unDraw();
+                this.x--;
+                this.draw(ctx);
+            }
+        }
+
+        rotate() {
+            let nextPattern = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
+            let kick = 0;
+
+            if (this.collision(0, 0, nextPattern)) {
+                if (this.x > COL / 2) { kick = -1; } else { kick = 1; }
+            }
+
+            if (!this.collision(kick, 0, nextPattern)) {
+                this.unDraw();
+                this.x += kick;
+                this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length;
+                this.activeTetromino = nextPattern;
+                this.draw(ctx);
+            }
+        }
+
+        collision(x, y, piece) {
+            for (let r = 0; r < piece.length; r++) {
+                for (let c = 0; c < piece[r].length; c++) {
+                    if (!piece[r][c]) continue;
+                    let newX = this.x + c + x;
+                    let newY = this.y + r + y;
+
+                    if (newX < 0 || newX >= COL || newY >= ROW) return true;
+                    if (newY < 0) continue;
+                    if (board[newY][newX] !== VACANT) return true;
+                }
+            }
+            return false;
+        }
+
+        lock() {
+            for (let r = 0; r < this.activeTetromino.length; r++) {
+                for (let c = 0; c < this.activeTetromino[r].length; c++) {
+                    if (!this.activeTetromino[r][c]) continue;
+                    if (this.y + r < 0) {
+                        isGameOver = true;
+                        if (gameOverText) gameOverText.style.display = "block";
+                        stopTetris();
+                        return;
+                    }
+                    board[this.y + r][this.x + c] = "rgba(255, 255, 255, 0.85)";
+                }
+            }
+
+            // 行が揃ったかの判定・消去処理
+            for (let r = 0; r < ROW; r++) {
+                let isRowFull = true;
+                for (let c = 0; c < COL; c++) {
+                    if (board[r][c] === VACANT) {
+                        isRowFull = false;
+                        break;
+                    }
+                }
+                if (isRowFull) {
+                    for (let y = r; y > 1; y--) {
+                        for (let c = 0; c < COL; c++) {
+                            board[y][c] = board[y - 1][c];
+                        }
+                    }
+                    for (let c = 0; c < COL; c++) {
+                        board[0][c] = VACANT;
+                    }
+                    score += 100;
+                }
+            }
+            if (scoreElement) scoreElement.innerText = score;
+        }
+    }
+
+    let p, nextP;
+    function randomPiece() {
+        let r = Math.floor(Math.random() * PIECES.length);
+        return new Piece(PIECES[r]);
+    }
+
+    function drawBoard() {
+        if (!ctx) return;
+        for (let r = 0; r < ROW; r++) {
+            for (let c = 0; c < COL; c++) {
+                ctx.fillStyle = board[r][c];
+                ctx.fillRect(c * SQ, r * SQ, SQ, SQ);
+                ctx.strokeStyle = board[r][c] === VACANT ? "rgba(255, 255, 255, 0.08)" : "#0b0b0b";
+                ctx.lineWidth = 1;
+                ctx.strokeRect(c * SQ, r * SQ, SQ, SQ);
+            }
+        }
+    }
+
+    function drawNext() {
+        if (!nextCtx) return;
+        nextCtx.fillStyle = VACANT;
+        nextCtx.fillRect(0, 0, 80, 80);
+        
+        // Nextブロックをミニサイズ(15px)で中央付近に描写するためのダミーオブジェクト
+        let dummy = new Piece(nextP.tetromino);
+        dummy.x = 0;
+        dummy.y = 0;
+        
+        // 形状ごとの表示位置微調整
+        let xOffset = 20;
+        let yOffset = 25;
+        if (dummy.activeTetromino.length === 2) { xOffset = 25; yOffset = 25; } // Oミノ
+        if (dummy.activeTetromino.length === 4) { xOffset = 10; yOffset = 15; } // Iミノ
+        
+        dummy.draw(nextCtx, xOffset, yOffset, 15);
+    }
+
+    // 🎮 テトリスの初期化・開始
+    function initTetris() {
+        if (!ctx) return;
+        stopTetris();
+        
+        board = [];
+        for (let r = 0; r < ROW; r++) {
+            board[r] = [];
+            for (let c = 0; c < COL; c++) { board[r][c] = VACANT; }
+        }
+
+        score = 0;
+        isGameOver = false;
+        if (scoreElement) scoreElement.innerText = score;
+        if (gameOverText) gameOverText.style.display = "none";
+
+        drawBoard();
+        p = randomPiece();
+        nextP = randomPiece();
+        p.draw(ctx);
+        drawNext();
+
+        // 500ms(0.5秒)ごとに自動で自由落下
+        gameInterval = setInterval(() => {
+            if (!isGameOver) p.moveDown();
+        }, 500);
+    }
+
+    // 🎮 テトリスの停止
+    function stopTetris() {
+        if (gameInterval) {
+            clearInterval(gameInterval);
+            gameInterval = null;
+        }
+    }
+
+    // ⌨️ パソコン用：キーボード操作の割り当て（既存のカーソル表示に干渉しません）
+    document.addEventListener("keydown", (e) => {
+        const gameSec = document.getElementById('game');
+        if (!gameSec || !gameSec.classList.contains('active') || isGameOver) return;
+
+        if (e.key === "ArrowLeft" || e.key === "a") { p.moveLeft(); }
+        else if (e.key === "ArrowUp" || e.key === "w" || e.key === "r") { p.rotate(); }
+        else if (e.key === "ArrowRight" || e.key === "d") { p.moveRight(); }
+        else if (e.key === "ArrowDown" || e.key === "s") { p.moveDown(); }
+    });
+
+    // 📱 スマホ用：画面上の物理スクエアボタンへのタップイベント紐付け
+    const bindBtn = (id, action) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (p && !isGameOver) action();
+            });
+            // タッチ操作時の反応を爆速にするためtouchstartも二重補強
+            el.addEventListener("touchstart", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (p && !isGameOver) action();
+            });
+        }
+    };
+    bindBtn("btn-left", () => p.moveLeft());
+    bindBtn("btn-rotate", () => p.rotate());
+    bindBtn("btn-right", () => p.moveRight());
+    bindBtn("btn-down", () => p.moveDown());
 </script>
 </body>
 </html>

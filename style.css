@@ -1,551 +1,617 @@
-/* ==========================================================================
-   ? 1. パソコン用（いただいたオリジナルのコードを100%そのまま維持）
-   ========================================================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: #0b0b0b;
-    color: #ffffff;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    overflow-x: hidden;
-    /* ?ブラウザ標準の矢印カーソルを画面全体で完全に非表示にする */
-    cursor: none !important; 
-}
-
-/* ?リンクやボタンの上に乗ったときも、標準カーソル（指マーク等）が出ないように強制非表示 */
-a, button, [role="button"], input[type="submit"] {
-    cursor: none !important;
-}
-
-/* ==========================================
-   2. カスタムカーソル（スクエア）
-   ========================================== */
-.custom-square-cursor {
-    width: 8px;
-    height: 8px;
-    background-color: rgba(255, 255, 255, 0.6);
-    border: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 10000;
-    transform: translate(-50%, -50%);
-    will-change: transform, left, top;
-    -webkit-transform: translate(-50%, -50%);
-    transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
-    opacity: 1;
-}
-
-/* ==========================================
-   3. ギャラリー用矢印カスタムカーソル
-   ========================================== */
-.custom-arrow-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    will-change: transform, left, top;
-    -webkit-transform: translate(-50%, -50%);
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';">
     
-    /* ?ギャラリー時の超特大サイズ（7rem） */
-    font-size: 3rem; 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotaro Okabe/岡部 浩太郎</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="custom-square-cursor"></div>
+    <div class="custom-arrow-cursor left">←</div>
+    <div class="custom-arrow-cursor right">→</div>
+
+    <div class="menu-column-overlay" id="overlay-home"><img src="home-vertical.jpg" alt="Home演出画像"></div>
+    <div class="menu-column-overlay" id="overlay-gallery"><img src="gallery-vertical.jpg" alt="Gallery演出画像"></div>
+    <div class="menu-column-overlay" id="overlay-game"><div style="width:100%; height:100%; background:#0b0b0b;"></div></div>
+    <div class="menu-column-overlay" id="overlay-contact"><img src="contact-vertical.jpg" alt="Contact演出画像"></div>
+
+    <header>
+        <div class="logo">Kotaro Okabe</div>
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-target="gallery">Gallery</a></li>
+                <li><a href="#" class="nav-link" data-target="game">Game</a></li>
+                <li><a href="#" class="nav-link" data-target="contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="page active">
+            <div class="fullscreen-bg">
+                <img src="main-home.jpg" alt="Homeメイン画像">
+            </div>
+            <div class="content-box">
+                <h1></h1>
+                <p></p>
+            </div>
+        </section>
+
+        <section id="gallery" class="page">
+            <div class="gallery-container">
+                <div class="gallery-track">
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-01.jpg" alt="作品1">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-02.jpg" alt="作品2">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-03.jpg" alt="作品3">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-04.jpg" alt="作品4">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-05.jpg" alt="作品5">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-06.jpg" alt="作品6">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-07.jpg" alt="作品7">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-08.jpg" alt="作品8">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-09.jpg" alt="作品9">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-10.jpg" alt="作品10">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+
+                    <div class="gallery-slide">
+                        <img src="gallery-11.jpg" alt="作品11">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-12.jpg" alt="作品12">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-13.jpg" alt="作品13">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-14.jpg" alt="作品14">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-15.jpg" alt="作品15">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-16.jpg" alt="作品16">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-17.jpg" alt="作品17">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-18.jpg" alt="作品18">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-19.jpg" alt="作品19">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-20.jpg" alt="作品20">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                    <div class="gallery-slide">
+                        <img src="gallery-21.jpg" alt="作品21">
+                        <div class="work-title">「intermediation」</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <section id="game" class="page">
+            <div class="game-wrapper">
+                <div class="game-container">
+                    <canvas id="tetris-canvas" width="240" height="480"></canvas>
+                    
+                    <div class="game-side-panel">
+                        <div class="panel-section">
+                            <div class="panel-label">SCORE</div>
+                            <div id="game-score" class="panel-value">0</div>
+                        </div>
+                        <div class="panel-section">
+                            <div class="panel-label">NEXT</div>
+                            <canvas id="next-canvas" width="80" height="80"></canvas>
+                        </div>
+                        <div id="game-over-text" class="panel-value" style="color: #ff3333; font-size: 0.75rem; letter-spacing: 0.1em; margin-top: 20px; display: none;">GAME OVER</div>
+                    </div>
+                </div>
+
+                <div class="game-controls-mobile">
+                    <button type="button" class="game-btn" id="btn-left">&lt;</button>
+                    <button type="button" class="game-btn" id="btn-rotate">R</button>
+                    <button type="button" class="game-btn" id="btn-right">&gt;</button>
+                    <button type="button" class="game-btn" id="btn-down">V</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="page">
+            <div class="fullscreen-bg">
+                <img src="main-contact.jpg" alt="Contactメイン画像">
+            </div>
+            <div class="content-box">
+                <h1></h1>
+                
+                <div class="contact-links" style="margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    
+                    <a href="mailto:ommatokoita@gmail.com" class="contact-item" style="display: block; color: #fff; text-decoration: none; font-size: 1.2rem; opacity: 0.8; transition: opacity 0.3s; letter-spacing: 0.15em;">
+                        Email
+                    </a>
+                    
+                    <a href="#" onclick="window.open('https://instagram.com/iminapeacefulplace', '_blank', 'noopener,noreferrer'); return false;" class="contact-item" style="display: block; color: #fff; text-decoration: none; font-size: 1.2rem; opacity: 0.8; transition: opacity 0.3s; letter-spacing: 0.15em;">
+                        Instagram
+                    </a>
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    // 1. 各種要素の取得
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.page');
     
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: #ffffff;
-    opacity: 0; 
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-}
+    const customSquareCursor = document.querySelector('.custom-square-cursor');
+    const customArrowCursorLeft = document.querySelector('.custom-arrow-cursor.left');
+    const customArrowCursorRight = document.querySelector('.custom-arrow-cursor.right');
+    const gallerySection = document.getElementById('gallery');
+    const galleryTrack = document.querySelector('.gallery-track');
+    const headerArea = document.querySelector('header');
 
-.custom-arrow-cursor.show {
-    opacity: 0.3; 
-    visibility: visible;
-}
+    // 2. 状態管理用の変数
+    let isHoveringMenu = false;
+    let currentSlideIndex = 0; 
+    const totalSlides = 21;    
+    let lastMouseX = 0;        
 
-/* ==========================================
-   4. グローバルナビゲーション（ヘッダー）
-   ========================================== */
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 30px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 101; 
-}
+    // 制御A：メニューの切り替え ＆ ホバー時の半透明写真演出
+    navLinks.forEach(link => {
+        const targetId = link.getAttribute('data-target');
+        const targetOverlay = document.getElementById(`overlay-${targetId}`);
 
-header .logo {
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-}
+        link.addEventListener('mouseenter', () => {
+            if (targetOverlay) targetOverlay.classList.add('show');
+        });
 
-header nav ul {
-    display: flex;
-    list-style: none;
-}
+        link.addEventListener('mouseleave', () => {
+            if (targetOverlay) targetOverlay.classList.remove('show');
+        });
 
-header nav ul li {
-    margin-left: 0;
-}
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            link.classList.add('active');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            const targetPage = document.getElementById(targetId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
 
-header nav ul li a {
-    display: inline-block;
-    width: 100px;       
-    text-align: center; 
-    color: #ffffff;     
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    opacity: 0.4;
-    transition: opacity 0.3s;
-}
+            // ?Galleryメニューがクリックされた瞬間、確実に1枚目を100%表示にする
+            if (targetId === 'gallery') {
+                currentSlideIndex = 0; 
+                const slides = document.querySelectorAll('.gallery-slide');
+                slides.forEach((slide, idx) => {
+                    if (idx === 0) {
+                        slide.classList.add('active'); 
+                    } else {
+                        slide.classList.remove('active'); 
+                    }
+                });
+            }
 
-header nav ul li a.active,
-header nav ul li a:hover {
-    opacity: 1;
-}
+            // ?Gameメニューがクリックされたとき、テトリスを初期化して開始する
+            if (targetId === 'game') {
+                initTetris();
+            } else {
+                stopTetris(); // 他のページに移ったらタイマーを止めて負荷を下げる
+            }
+        });
+    });
 
-/* ==========================================
-   5. 半透明写真演出（メニューホバー時）
-   ========================================== */
-.menu-column-overlay {
-    position: fixed;
-    top: 0;
-    right: 0; 
-    width: calc(5% + 300px); 
-    height: 100vh;
-    z-index: 99; 
-    pointer-events: none;
-    overflow: hidden;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(20px);
-    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.5s;
-}
+    headerArea.addEventListener('mouseenter', () => { isHoveringMenu = true; });
+    headerArea.addEventListener('mouseleave', () => { isHoveringMenu = false; });
 
-.menu-column-overlay img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.5; 
-}
+    // 制御B：カスタムカーソルの追従 ＆ ギャラリー用特大矢印のキッパリ切り替え
+    document.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const windowWidth = window.innerWidth;
+        lastMouseX = mouseX;
 
-.menu-column-overlay.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-}
+        if (customSquareCursor) {
+            customSquareCursor.style.left = mouseX + 'px';
+            customSquareCursor.style.top = mouseY + 'px';
+        }
+        if (customArrowCursorLeft && customArrowCursorRight) {
+            customArrowCursorLeft.style.left = mouseX + 'px';
+            customArrowCursorLeft.style.top = mouseY + 'px';
+            customArrowCursorRight.style.left = mouseX + 'px';
+            customArrowCursorRight.style.top = mouseY + 'px';
+        }
 
-/* ==========================================
-   6. ページセクション ＆ フルスクリーン画像共通設定
-   ========================================== */
-.page {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.8s ease, visibility 0.8s;
-    padding: 120px 5% 50px 5%;
-}
+        if (gallerySection && gallerySection.classList.contains('active') && !isHoveringMenu) {
+            if (customSquareCursor) customSquareCursor.style.opacity = '0'; 
 
-.page.active {
-    opacity: 1;
-    visibility: visible;
-}
+            if (mouseX < windowWidth / 2) {
+                customArrowCursorLeft.classList.add('show');
+                customArrowCursorRight.classList.remove('show');
+            } else {
+                customArrowCursorRight.classList.add('show');
+                customArrowCursorLeft.classList.remove('show');
+            }
+        } else {
+            if (customSquareCursor) customSquareCursor.style.opacity = '1'; 
+            if (customArrowCursorLeft) customArrowCursorLeft.classList.remove('show');
+            if (customArrowCursorRight) customArrowCursorRight.classList.remove('show');
+        }
+    });
 
-/* 各画面の背景共通枠 */
-.fullscreen-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 96; 
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    // ?制御C：ギャラリー画面で画面の左右をクリックした際、その場で1枚ずつ切り替える処理
+    document.addEventListener('click', (e) => {
+        if (gallerySection && gallerySection.classList.contains('active') && !isHoveringMenu) {
+            const windowWidth = window.innerWidth;
 
-/* 通常の画像表示（ギャラリー、コンタクトなど）：比率を維持してぴったり収める */
-.fullscreen-bg img {
-    width: 100%;
-    height: 100%;
-    object-src: contain;
-    object-fit: contain; 
-}
-
-/* ?ホーム画面とコンタクト画面：写真を端から端まで（全画面に隙間なく）敷き詰める設定 */
-#home .fullscreen-bg img,
-#contact .fullscreen-bg img {
-    object-fit: cover; 
-}
-
-/* ?ギャラリー内の各写真：画面の端から端まで100%（隙間なく）敷き詰める設定 */
-.gallery-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-}
-
-/* 写真の上に重なるテキストボックス */
-.content-box {
-    max-width: 800px;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    z-index: 97; 
-}
-
-.content-box h1 {
-    font-size: 2.5rem;
-    font-weight: 300;
-    letter-spacing: 0.1em;
-    margin-bottom: 20px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8); 
-}
-
-.content-box p {
-    font-size: 1rem;
-    line-height: 1.8;
-    opacity: 0.9;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-}
-
-/* ==========================================
-   ギャラリー専用：1枚ずつその場でパッと切り替える設定
-   ========================================== */
-.gallery-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 96;
-    overflow: hidden;
-}
-
-/* ?スライド（アニメーション）を完全に排除し、その場に重ねるための親枠 */
-.gallery-track {
-    display: block !important; 
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-}
-
-/* ?各写真の枠を「透明・非表示」の状態で同じ場所にすべて重ねておきます */
-.gallery-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw !important;
-    height: 100vh !important;
-    opacity: 0;             
-    visibility: hidden;     
-    transition: none !important; 
-}
-
-/* ?JavaScriptで「active」という目印がついた画像だけを、その場にパッと100%表示します */
-.gallery-slide.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* ?【最重要修正】写真の比率を100%維持し、画面内に全体が収まるように表示 */
-.gallery-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; 
-}
-
-/* ==========================================
-   ギャラリー作品名（タイトル）：左下・小さめ配置設定
-   ========================================== */
-.gallery-slide {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.work-title {
-    position: absolute;
-    bottom: 30px;  
-    left: 40px;    
-    transform: none; 
-    
-    font-size: 0.8rem; 
-    color: #ffffff;
-    font-weight: 300;
-    letter-spacing: 0.15em; 
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); 
-    z-index: 98;
-    pointer-events: none; 
-}
+            if (lastMouseX < windowWidth / 2) {
+                if (currentSlideIndex > 0) {
+                    currentSlideIndex--;
+                }
+            } else {
+                if (currentSlideIndex < totalSlides - 1) {
+                    currentSlideIndex++;
+                }
+            }
+            
+            const slides = document.querySelectorAll('.gallery-slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (slides[currentSlideIndex]) {
+                slides[currentSlideIndex].classList.add('active');
+            }
+        }
+    });
 
 
-/* ==========================================================================
-   ? 2. スマートフォン専用：隔離上書き設定（PC版に絶対影響を与えない）
-   ========================================================================== */
-@media (max-width: 768px) {
-    
-    /* ? 【カーソル完全消去】スマホ画面上のすべてのカスタムカーソルを強制消去 */
-    .custom-square-cursor,
-    .custom-arrow-cursor,
-    .custom-arrow-cursor.show {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-        width: 0 !important;
-        height: 0 !important;
-    }
-    
-    /* 操作感をスマホ本来の標準タップに強制リセット */
-    body, html, a, button, img {
-        cursor: auto !important;
-    }
+    // ==========================================================================
+    // ?? 【新規追加】ミニマル・テトリスゲームエンジン（モノトーン仕様）
+    // ==========================================================================
+    const canvas = document.getElementById('tetris-canvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    const nextCanvas = document.getElementById('next-canvas');
+    const nextCtx = nextCanvas ? nextCanvas.getContext('2d') : null;
+    const scoreElement = document.getElementById('game-score');
+    const gameOverText = document.getElementById('game-over-text');
 
-    /* ? 【モーション消去】切り替え時のディレイや、メニューホバー時の演出画像を無効化 */
-    *, *::before, *::after, .page {
-        transition: none !important;
-        animation: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    .menu-column-overlay,
-    .menu-column-overlay.show,
-    .menu-column-overlay img {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-    }
+    const ROW = 20;
+    const COL = 10;
+    const SQ = 24; // 1マスのサイズ(24px * COL(10) = 240px)
+    const VACANT = "#0b0b0b"; // マスの背景色（サイトの漆黒に同期）
 
-    /* 非アクティブなページのみパッと非表示 */
-    .page:not(.active) {
-        display: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-    }
+    let board = [];
+    let gameInterval = null;
+    let score = 0;
+    let isGameOver = false;
 
-    /* ? 【全画面構造確保】 */
-    .page,
-    .fullscreen-bg,
-    .gallery-container,
-    .gallery-track {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        padding: 0 !important; 
+    // ブロック（テトリミノ）の形状定義（モノトーン表現のため全て白ラインで描写）
+    const PIECES = [
+        [ [0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0] ], // I
+        [ [1,0,0],[1,1,1],[0,0,0] ],                 // J
+        [ [0,0,1],[1,1,1],[0,0,0] ],                 // L
+        [ [1,1],[1,1] ],                             // O
+        [ [0,1,1],[1,1,0],[0,0,0] ],                 // S
+        [ [0,1,0],[1,1,1],[0,0,0] ],                 // T
+        [ [1,1,0],[0,1,1],[0,0,0] ]                  // Z
+    ];
+
+    class Piece {
+        constructor(tetromino) {
+            this.tetromino = tetromino;
+            this.activeTetromino = this.tetromino[0];
+            this.tetrominoN = 0;
+            this.x = 3;
+            this.y = -2;
+        }
+
+        draw(targetCtx, offsetX = 0, offsetY = 0, size = SQ) {
+            for (let r = 0; r < this.activeTetromino.length; r++) {
+                for (let c = 0; c < this.activeTetromino[r].length; c++) {
+                    if (this.activeTetromino[r][c]) {
+                        targetCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
+                        targetCtx.fillRect((this.x + c) * size + offsetX, (this.y + r) * size + offsetY, size, size);
+                        targetCtx.strokeStyle = "#0b0b0b";
+                        targetCtx.lineWidth = 1;
+                        targetCtx.strokeRect((this.x + c) * size + offsetX, (this.y + r) * size + offsetY, size, size);
+                    }
+                }
+            }
+        }
+
+        unDraw() {
+            if (!ctx) return;
+            for (let r = 0; r < this.activeTetromino.length; r++) {
+                for (let c = 0; c < this.activeTetromino[r].length; c++) {
+                    if (this.activeTetromino[r][c]) {
+                        const boardY = this.y + r;
+                        const boardX = this.x + c;
+                        if (boardY >= 0) {
+                            ctx.fillStyle = VACANT;
+                            ctx.fillRect(boardX * SQ, boardY * SQ, SQ, SQ);
+                            ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+                            ctx.lineWidth = 1;
+                            ctx.strokeRect(boardX * SQ, boardY * SQ, SQ, SQ);
+                        }
+                    }
+                }
+            }
+        }
+
+        moveDown() {
+            if (this.collision(0, 1, this.activeTetromino)) {
+                this.lock();
+                p = nextP;
+                nextP = randomPiece();
+                drawBoard();
+                p.draw(ctx);
+                drawNext();
+            } else {
+                this.unDraw();
+                this.y++;
+                this.draw(ctx);
+            }
+        }
+
+        moveRight() {
+            if (!this.collision(1, 0, this.activeTetromino)) {
+                this.unDraw();
+                this.x++;
+                this.draw(ctx);
+            }
+        }
+
+        moveLeft() {
+            if (!this.collision(-1, 0, this.activeTetromino)) {
+                this.unDraw();
+                this.x--;
+                this.draw(ctx);
+            }
+        }
+
+        rotate() {
+            let nextPattern = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
+            let kick = 0;
+
+            if (this.collision(0, 0, nextPattern)) {
+                if (this.x > COL / 2) { kick = -1; } else { kick = 1; }
+            }
+
+            if (!this.collision(kick, 0, nextPattern)) {
+                this.unDraw();
+                this.x += kick;
+                this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length;
+                this.activeTetromino = nextPattern;
+                this.draw(ctx);
+            }
+        }
+
+        collision(x, y, piece) {
+            for (let r = 0; r < piece.length; r++) {
+                for (let c = 0; c < piece[r].length; c++) {
+                    if (!piece[r][c]) continue;
+                    let newX = this.x + c + x;
+                    let newY = this.y + r + y;
+
+                    if (newX < 0 || newX >= COL || newY >= ROW) return true;
+                    if (newY < 0) continue;
+                    if (board[newY][newX] !== VACANT) return true;
+                }
+            }
+            return false;
+        }
+
+        lock() {
+            for (let r = 0; r < this.activeTetromino.length; r++) {
+                for (let c = 0; c < this.activeTetromino[r].length; c++) {
+                    if (!this.activeTetromino[r][c]) continue;
+                    if (this.y + r < 0) {
+                        isGameOver = true;
+                        if (gameOverText) gameOverText.style.display = "block";
+                        stopTetris();
+                        return;
+                    }
+                    board[this.y + r][this.x + c] = "rgba(255, 255, 255, 0.85)";
+                }
+            }
+
+            // 行が揃ったかの判定・消去処理
+            for (let r = 0; r < ROW; r++) {
+                let isRowFull = true;
+                for (let c = 0; c < COL; c++) {
+                    if (board[r][c] === VACANT) {
+                        isRowFull = false;
+                        break;
+                    }
+                }
+                if (isRowFull) {
+                    for (let y = r; y > 1; y--) {
+                        for (let c = 0; c < COL; c++) {
+                            board[y][c] = board[y - 1][c];
+                        }
+                    }
+                    for (let c = 0; c < COL; c++) {
+                        board[0][c] = VACANT;
+                    }
+                    score += 100;
+                }
+            }
+            if (scoreElement) scoreElement.innerText = score;
+        }
     }
 
-    /* 【重複表示対策】アクティブなギャラリースライドのみ表示し、他は完全に隠す */
-    .gallery-slide {
-        display: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        width: 100vw !important;
-        height: 100vh !important;
+    let p, nextP;
+    function randomPiece() {
+        let r = Math.floor(Math.random() * PIECES.length);
+        return new Piece(PIECES[r]);
     }
 
-    /* 各ページの背景を漆黒に固定 */
-    body, .page, #home, #contact, .gallery-container {
-        background-color: #0b0b0b !important;
+    function drawBoard() {
+        if (!ctx) return;
+        for (let r = 0; r < ROW; r++) {
+            for (let c = 0; c < COL; c++) {
+                ctx.fillStyle = board[r][c];
+                ctx.fillRect(c * SQ, r * SQ, SQ, SQ);
+                ctx.strokeStyle = board[r][c] === VACANT ? "rgba(255, 255, 255, 0.08)" : "#0b0b0b";
+                ctx.lineWidth = 1;
+                ctx.strokeRect(c * SQ, r * SQ, SQ, SQ);
+            }
+        }
     }
 
-    /* ? 【画像表示・比率】 */
-    /* ホーム画面とコンタクト画面：画像の中央基準で画面いっぱいに敷き詰める */
-    #home .fullscreen-bg img,
-    #contact .fullscreen-bg img {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important; 
-        object-position: center center !important;
-    }
-
-    /* ? ギャラリー画面：アクティブな1枚をレイアウトするための親枠設定 */
-    .gallery-slide.active {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important; /* 上を基準にして要素を並べる */
-        align-items: center !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: relative !important;
-    }
-
-    /* 写真のスタイル設定（上部70%に制限して下部にボタン余白を作る） */
-    .gallery-slide img {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        width: auto !important;
-        height: auto !important;
-        max-width: 90% !important; /* 作品タイトルと揃えるため左右に10%の余白を設ける */
-        max-height: 60vh !important; /* 作品タイトル用のスペースを確保するために微調整 */
-        margin-top: calc(90px + env(safe-area-inset-top)) !important; 
-        object-fit: contain !important;
-        pointer-events: none !important; 
-    }
-
-    /* ? 携帯ゲーム風：画面下部に完全スクエア（正方形）の「<」と「>」ボタンを配置 */
-    /* iPhoneのあらゆるブラウザで文字化けしない標準文字コード「<」「>」へ修正 */
-    .gallery-container {
-        pointer-events: auto !important;
-    }
-
-    .gallery-container::before,
-    .gallery-container::after {
-        position: fixed !important;
-        bottom: calc(50px + env(safe-area-inset-bottom)) !important; 
-        font-size: 1.2rem !important; /* 文字化け防止に伴いシャープなサイズに調整 */
-        font-family: monospace, sans-serif !important; /* iPhoneでも確実に等幅表示 */
-        color: rgba(255, 255, 255, 0.8) !important;
-        background-color: rgba(255, 255, 255, 0.05) !important; 
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    function drawNext() {
+        if (!nextCtx) return;
+        nextCtx.fillStyle = VACANT;
+        nextCtx.fillRect(0, 0, 80, 80);
         
-        /* ?完全スクエア（縦横54pxのきれいな正方形）に変更 */
-        width: 54px !important;
-        height: 54px !important;
-        border-radius: 0px !important; /* ?角丸を0にして完全なスクエアに */
+        // Nextブロックをミニサイズ(15px)で中央付近に描写するためのダミーオブジェクト
+        let dummy = new Piece(nextP.tetromino);
+        dummy.x = 0;
+        dummy.y = 0;
         
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        z-index: 9999 !important; 
-        pointer-events: none !important; /* タップ自体は背後の既存JavaScript判定に貫通 */
-    }
-
-    /* 左スクエアボタン（<）の位置 */
-    .gallery-container::before {
-        content: "<" !important;
-        left: calc(50% - 70px) !important;
-    }
-
-    /* 右スクエアボタン（>）の位置 */
-    .gallery-container::after {
-        content: ">" !important;
-        left: calc(50% + 16px) !important;
-    }
-
-    /* ?? 【最重要修正】作品タイトルを固定配置から「写真のすぐ左下」に密着表示 */
-    .work-title {
-        position: relative !important;
-        bottom: auto !important;
-        left: auto !important;
+        // 形状ごとの表示位置微調整
+        let xOffset = 20;
+        let yOffset = 25;
+        if (dummy.activeTetromino.length === 2) { xOffset = 25; yOffset = 25; } // Oミノ
+        if (dummy.activeTetromino.length === 4) { xOffset = 10; yOffset = 15; } // Iミノ
         
-        /* 写真の横幅（max-width: 90%）と完全に一致させるための調整 */
-        width: 90% !important; 
-        text-align: left !important;
+        dummy.draw(nextCtx, xOffset, yOffset, 15);
+    }
+
+    // ? テトリスの初期化・開始
+    function initTetris() {
+        if (!ctx) return;
+        stopTetris();
         
-        /* 写真との美しい間隔 */
-        margin-top: 14px !important; 
-        
-        font-size: 0.75rem !important;
-        letter-spacing: 0.1em !important;
-        z-index: 10002 !important;
-        transform: none !important;
+        board = [];
+        for (let r = 0; r < ROW; r++) {
+            board[r] = [];
+            for (let c = 0; c < COL; c++) { board[r][c] = VACANT; }
+        }
+
+        score = 0;
+        isGameOver = false;
+        if (scoreElement) scoreElement.innerText = score;
+        if (gameOverText) gameOverText.style.display = "none";
+
+        drawBoard();
+        p = randomPiece();
+        nextP = randomPiece();
+        p.draw(ctx);
+        drawNext();
+
+        // 500ms(0.5秒)ごとに自動で自由落下
+        gameInterval = setInterval(() => {
+            if (!isGameOver) p.moveDown();
+        }, 500);
     }
 
-
-    /* ? 【コンタクト画面】メール・インスタグラム等の要素（コンテンツボックス）を画面の「完全中央」に配置 */
-    #contact {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        text-align: center !important;
+    // ? テトリスの停止
+    function stopTetris() {
+        if (gameInterval) {
+            clearInterval(gameInterval);
+            gameInterval = null;
+        }
     }
 
-    #contact .content-box {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 100% !important;
-        max-width: 90% !important;
-        padding: 0 20px !important;
-        z-index: 10000 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
+    // ?? パソコン用：キーボード操作の割り当て（既存のカーソル表示に干渉しません）
+    document.addEventListener("keydown", (e) => {
+        const gameSec = document.getElementById('game');
+        if (!gameSec || !gameSec.classList.contains('active') || isGameOver) return;
 
-    #contact .content-box h1 {
-        font-size: 1.8rem !important;
-        margin-bottom: 16px !important;
-    }
+        if (e.key === "ArrowLeft" || e.key === "a") { p.moveLeft(); }
+        else if (e.key === "ArrowUp" || e.key === "w" || e.key === "r") { p.rotate(); }
+        else if (e.key === "ArrowRight" || e.key === "d") { p.moveRight(); }
+        else if (e.key === "ArrowDown" || e.key === "s") { p.moveDown(); }
+    });
 
-    #contact .content-box p, 
-    #contact .content-box a {
-        font-size: 0.95rem !important;
-        line-height: 2 !important;
-    }
-
-    /* ? 【レイアウト】画面左上にロゴ・名前を完全固定（iPhone 16上部ノッチ対策） */
-    header {
-        position: fixed !important;
-        top: calc(24px + env(safe-area-inset-top)) !important;
-        left: 24px !important;
-        width: auto !important;
-        padding: 0 !important;
-        display: block !important;
-        z-index: 10001 !important;
-    }
-
-    header .logo {
-        font-size: 1rem !important;
-        text-align: left !important;
-        letter-spacing: 0.2em !important;
-    }
-
-    /* ? 【レイアウト】画面右下にメニューの3つを縦並びで完全固定（iPhone 16下部ホームバー対策） */
-    header nav {
-        position: fixed !important;
-        bottom: calc(24px + env(safe-area-inset-bottom)) !important;
-        right: 24px !important;
-        left: auto !important;
-        top: auto !important;
-        z-index: 10001 !important;
-    }
-
-    header nav ul {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-end !important;
-        gap: 12px !important;
-    }
-
-    header nav ul li {
-        margin-left: 0 !important;
-    }
-
-    /* ? 【フォント】メニューのフォントサイズを一回り小さく設定 */
-    header nav ul li a {
-        width: auto !important;
-        text-align: right !important;
-        font-size: 0.75rem !important;
-        letter-spacing: 0.15em !important;
-    }
-}
+    // ? スマホ用：画面上の物理スクエアボタンへのタップイベント紐付け
+    const bindBtn = (id, action) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (p && !isGameOver) action();
+            });
+            // タッチ操作時の反応を爆速にするためtouchstartも二重補強
+            el.addEventListener("touchstart", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (p && !isGameOver) action();
+            });
+        }
+    };
+    bindBtn("btn-left", () => p.moveLeft());
+    bindBtn("btn-rotate", () => p.rotate());
+    bindBtn("btn-right", () => p.moveRight());
+    bindBtn("btn-down", () => p.moveDown());
+</script>
+</body>
+</html>
