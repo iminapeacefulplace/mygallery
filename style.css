@@ -295,4 +295,422 @@ header nav ul li a:hover {
     color: #ffffff;
     font-weight: 300;
     letter-spacing: 0.15em; 
-    text-shadow:
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); 
+    z-index: 98;
+    pointer-events: none; 
+}
+
+
+/* ==========================================================================
+   ?? PC版追加：テトリス（Game）大画面化 ＆ 操作ガイド横並び配置設定
+   ========================================================================== */
+.game-wrapper {
+    display: flex;
+    flex-direction: row;       /* テトリス本体と操作説明を確実に横並びにする */
+    align-items: center;
+    justify-content: center;
+    gap: 45px;                 /* 横並びになった時の間隔 */
+    width: 100%;
+    height: 100%;
+    z-index: 97;
+}
+
+.game-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    background-color: #0b0b0b;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ?PCでの表示時にテトリス盤面をさらに巨大化 */
+#tetris-canvas {
+    background-color: #0b0b0b;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: block;
+    width: 380px !important;   /* 縦横比を維持した大画面サイズ */
+    height: 760px !important;
+}
+
+.game-side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.panel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.panel-label {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.2em;
+    font-weight: bold;
+}
+
+.panel-value {
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+}
+
+#next-canvas {
+    background-color: #0b0b0b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: block;
+}
+
+/* ?テトリスの真横に綺麗に並べるための、PC用キーボード操作ガイドの枠組み */
+.game-controls-pc {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 25px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 200px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.pc-guide-title {
+    font-size: 0.7rem;
+    color: #ffffff;
+    letter-spacing: 0.2em;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 8px;
+}
+
+.pc-guide-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pc-key {
+    background-color: #111111;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 3px 8px;
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: #ffffff;
+    min-width: 32px;
+    text-align: center;
+}
+
+.pc-action {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.05em;
+}
+
+.game-controls-mobile {
+    display: none !important;
+}
+
+
+/* ==========================================================================
+   ? 2. スマートフォン専用：隔離上書き設定（いただいたオリジナル構造を完全に維持）
+   ========================================================================== */
+@media (max-width: 768px) {
+    
+    /* スマホ画面上のすべての追従カスタムカーソルを確実に強制非表示 */
+    .custom-square-cursor,
+    .custom-arrow-cursor,
+    .custom-arrow-cursor.show {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+    
+    body, html, a, button, img {
+        cursor: auto !important;
+    }
+
+    /* スマホ切り替えの挙動・演出最適化 */
+    .menu-column-overlay,
+    .menu-column-overlay.show,
+    .menu-column-overlay img {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+
+    /* 非アクティブなページのみパッと非表示 */
+    .page:not(.active) {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+
+    body, .page, #home, #contact, .gallery-container {
+        background-color: #0b0b0b !important;
+    }
+
+    /* ホーム画面とコンタクト画面：全画面に敷き詰め画像比率を維持 */
+    #home .fullscreen-bg img,
+    #contact .fullscreen-bg img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; 
+        object-position: center center !important;
+    }
+
+    /* ギャラリー画面：アクティブな1枚のスマホ表示枠組み */
+    .gallery-slide.active {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important; 
+        align-items: center !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+    }
+
+    /* スマホ表示領域に合わせた写真サイズ（上部70%付近に制限） */
+    .gallery-slide img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: auto !important;
+        height: auto !important;
+        max-width: 90% !important; 
+        max-height: 60vh !important; 
+        margin-top: calc(90px + env(safe-area-inset-top)) !important; 
+        object-fit: contain !important;
+        pointer-events: none !important; 
+    }
+
+    /* スマホ版ギャラリー操作用スクエア（正方形）ボタン配置 */
+    .gallery-container {
+        pointer-events: auto !important;
+    }
+
+    .gallery-container::before,
+    .gallery-container::after {
+        position: fixed !important;
+        bottom: calc(50px + env(safe-area-inset-bottom)) !important; 
+        font-size: 1.2rem !important; 
+        font-family: monospace, sans-serif !important; 
+        color: rgba(255, 255, 255, 0.8) !important;
+        background-color: rgba(255, 255, 255, 0.05) !important; 
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        width: 54px !important;
+        height: 54px !important;
+        border-radius: 0px !important; 
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        z-index: 9999 !important; 
+        pointer-events: none !important; 
+    }
+
+    .gallery-container::before {
+        content: "<" !important;
+        left: calc(50% - 70px) !important;
+    }
+
+    .gallery-container::after {
+        content: ">" !important;
+        left: calc(50% + 16px) !important;
+    }
+
+    /* ?? 【オリジナル復元】作品タイトルを固定配置から「写真のすぐ左下」へ密着配置 */
+    .work-title {
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        width: 90% !important; 
+        text-align: left !important;
+        margin-top: 14px !important; 
+        font-size: 0.75rem !important;
+        letter-spacing: 0.1em !important;
+        z-index: 10002 !important;
+        transform: none !important;
+    }
+
+    /* ? 【オリジナル復元】コンタクト画面を上下左右の「完全中央」に綺麗に配置 */
+    #contact {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    #contact .content-box {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 90% !important;
+        padding: 0 20px !important;
+        z-index: 10000 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #contact .content-box h1 {
+        font-size: 1.8rem !important;
+        margin-bottom: 16px !important;
+    }
+
+    #contact .content-box p, 
+    #contact .content-box a {
+        font-size: 0.95rem !important;
+        line-height: 2 !important;
+    }
+
+    /* ? 【オリジナル復元】ロゴと名前を画面左上に完全固定（iPhone安全エリア対応） */
+    header {
+        position: fixed !important;
+        top: calc(24px + env(safe-area-inset-top)) !important;
+        left: 24px !important;
+        width: auto !important;
+        padding: 0 !important;
+        display: block !important;
+        z-index: 10001 !important;
+    }
+
+    header .logo {
+        font-size: 1rem !important;
+        text-align: left !important;
+        letter-spacing: 0.2em !important;
+    }
+
+    /* ? 【オリジナル復元】メニュー4つを画面右下に「縦並び」で完全固定 */
+    header nav {
+        position: fixed !important;
+        bottom: calc(24px + env(safe-area-inset-bottom)) !important;
+        right: 24px !important;
+        left: auto !important;
+        top: auto !important;
+        z-index: 10001 !important;
+    }
+
+    header nav ul {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 12px !important;
+    }
+
+    header nav ul li {
+        margin-left: 0 !important;
+    }
+
+    header nav ul li a {
+        width: auto !important;
+        text-align: right !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.15em !important;
+    }
+
+    /* ?? スマホ専用：テトリス（Game）画面隔離独立レイアウト */
+    #game {
+        display: block !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        padding: 0 !important;
+    }
+
+    .game-wrapper {
+        display: flex !important;
+        flex-direction: column !important; /* スマホ時はボタンを縦並び(下部)に配置 */
+        justify-content: flex-start !important;
+        align-items: center !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        gap: 0 !important;
+        padding-top: calc(85px + env(safe-area-inset-top)) !important; 
+    }
+
+    .game-container {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 15px !important;
+        padding: 10px !important;
+        border: none !important; 
+        transform: scale(0.85) !important; /* スマホ画面内に綺麗に収める縮小率 */
+        transform-origin: top center !important;
+    }
+
+    /* スマホ版では巨大化を解除し標準のコンパクトサイズへ */
+    #tetris-canvas {
+        width: 240px !important;
+        height: 480px !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .game-side-panel {
+        gap: 15px !important;
+        width: 70px !important;
+    }
+
+    .panel-label {
+        font-size: 0.55rem !important;
+    }
+
+    .panel-value {
+        font-size: 1rem !important;
+    }
+
+    #next-canvas {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    /* スマホではPC用の操作説明パネルを確実に非表示 */
+    .game-controls-pc {
+        display: none !important;
+    }
+
+    /* スマホ用の仮想十字コントローラーボタンを有効化 */
+    .game-controls-mobile {
+        display: grid !important;
+        grid-template-columns: repeat(3, 56px) !important;
+        grid-template-rows: repeat(2, 56px) !important;
+        gap: 12px !important;
+        position: fixed !important;
+        bottom: calc(40px + env(safe-area-inset-bottom)) !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 10002 !important;
+    }
+
+    .game-btn {
+        width: 56px !important;
+        height: 56px !important;
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 0px !important; 
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-size: 1.1rem !important;
+        font-family: monospace, sans-serif !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        -webkit-tap-highlight-color: transparent !important;
+        user-select: none !important;
+    }
+
+    #btn-left { grid-column: 1 !important; grid-row: 1 !important; }
+    #btn-rotate { grid-column: 2 !important; grid-row: 1 !important; font-size: 0.9rem !important; font-weight: bold !important; }
+    #btn-right { grid-column: 3 !important; grid-row: 1 !important; }
+    #btn-down { grid-column: 2 !important; grid-row: 2 !important; }
+}

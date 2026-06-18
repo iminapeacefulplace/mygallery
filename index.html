@@ -113,42 +113,42 @@
                     
                     <div class="gallery-slide">
                         <img src="gallery-14.jpg" alt="作品14">
-                        <div class="work-title">「intermediation」</div>
+                        <div class="work-title"> "intermediation" </div>
                     </div>
                     
                     <div class="gallery-slide">
                         <img src="gallery-15.jpg" alt="作品15">
-                        <div class="work-title">「intermediation」</div>
+                        <div class="work-title"> "intermediation" </div>
                     </div>
                     
                     <div class="gallery-slide">
                         <img src="gallery-16.jpg" alt="作品16">
-                        <div class="work-title">「intermediation」</div>
+                        <div class="work-title"> "intermediation" </div>
                     </div>
                     
                     <div class="gallery-slide">
                         <img src="gallery-17.jpg" alt="作品17">
-                        <div class="work-title">「intermediation」</div>
+                        <div class="work-title"> "intermediation" </div>
                     </div>
                     
                     <div class="gallery-slide">
                         <img src="gallery-18.jpg" alt="作品18">
-                        <div class="work-title">「intermediation」</div>
+                        <div class="work-title"> "intermediation" </div>
                     </div>
                     
                     <div class="gallery-slide">
                         <img src="gallery-19.jpg" alt="作品19">
-                        <div class="work-title">「intermediation」</div>
+                        <div class="work-title"> "intermediation" </div>
                     </div>
                     
                     <div class="gallery-slide">
                         <img src="gallery-20.jpg" alt="作品20">
-                        <div class="work-title">「intermediation」</div>
+                        <div class="work-title"> "intermediation" </div>
                     </div>
                     
                     <div class="gallery-slide">
                         <img src="gallery-21.jpg" alt="作品21">
-                        <div class="work-title">「intermediation」</div>
+                        <div class="work-title"> "intermediation" </div>
                     </div>
                     
                 </div>
@@ -171,6 +171,14 @@
                         </div>
                         <div id="game-over-text" class="panel-value" style="color: #ff3333; font-size: 0.75rem; letter-spacing: 0.1em; margin-top: 20px; display: none;">GAME OVER</div>
                     </div>
+                </div>
+
+                <div class="game-controls-pc">
+                    <div class="pc-guide-title">CONTROLS</div>
+                    <div class="pc-guide-item"><span class="pc-key">←</span><span class="pc-action">MOVE LEFT</span></div>
+                    <div class="pc-guide-item"><span class="pc-key">→</span><span class="pc-action">MOVE RIGHT</span></div>
+                    <div class="pc-guide-item"><span class="pc-key">↑</span><span class="pc-action">ROTATE</span></div>
+                    <div class="pc-guide-item"><span class="pc-key">↓</span><span class="pc-action">DROP</span></div>
                 </div>
 
                 <div class="game-controls-mobile">
@@ -354,12 +362,12 @@
     // ブロック（テトリミノ）の形状定義（モノトーン表現のため全て白ラインで描写）
     const PIECES = [
         [ [0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0] ], // I
-        [ [1,0,0],[1,1,1],[0,0,0] ],                 // J
-        [ [0,0,1],[1,1,1],[0,0,0] ],                 // L
-        [ [1,1],[1,1] ],                             // O
-        [ [0,1,1],[1,1,0],[0,0,0] ],                 // S
-        [ [0,1,0],[1,1,1],[0,0,0] ],                 // T
-        [ [1,1,0],[0,1,1],[0,0,0] ]                  // Z
+        [ [1,0,0],[1,1,1],[0,0,0] ],                  // J
+        [ [0,0,1],[1,1,1],[0,0,0] ],                  // L
+        [ [1,1],[1,1] ],                              // O
+        [ [0,1,1],[1,1,0],[0,0,0] ],                  // S
+        [ [0,1,0],[1,1,1],[0,0,0] ],                  // T
+        [ [1,1,0],[0,1,1],[0,0,0] ]                   // Z
     ];
 
     class Piece {
