@@ -193,7 +193,7 @@
             .header-mobile-btn.type-square {
                 width: 34px !important;
                 padding: 0 !important;
-                font-size: 0.52rem !important;
+                font-size: 0.8rem !important; /* 記号表示用に見栄えを微調整 */
                 letter-spacing: 0em !important;
             }
 
@@ -225,6 +225,17 @@
                 transform: scale(var(--game-mobile-scale));
                 transform-origin: top center;
                 margin: 0 auto;
+            }
+
+            /* スマホ操作ボタンコンテナを下げる調整 */
+            .game-controls-mobile {
+                position: fixed !important;
+                bottom: calc(90px + env(safe-area-inset-bottom)) !important; /* 位置を引き下げ */
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                display: flex !important;
+                gap: 15px !important;
+                z-index: 10000 !important;
             }
 
             .mobile-modal-overlay {
@@ -282,7 +293,7 @@
         <div class="logo">Kotaro Okabe</div>
         
         <div class="header-mobile-controls" id="mobile-header-actions" style="display: none;">
-            <button type="button" class="header-mobile-btn type-square" id="btn-header-toggle">START</button>
+            <button type="button" class="header-mobile-btn type-square" id="btn-header-toggle">▶</button>
             <button type="button" class="header-mobile-btn" id="btn-header-option">OPTION</button>
         </div>
 
@@ -380,10 +391,10 @@
                 </div>
 
                 <div class="game-controls-mobile">
-                    <button type="button" class="game-btn" id="btn-left">&lt;</button>
+                    <button type="button" class="game-btn" id="btn-left">←</button>
                     <button type="button" class="game-btn" id="btn-rotate">R</button>
-                    <button type="button" class="game-btn" id="btn-right">&gt;</button>
-                    <button type="button" class="game-btn" id="btn-down">V</button>
+                    <button type="button" class="game-btn" id="btn-right">→</button>
+                    <button type="button" class="game-btn" id="btn-down">↓</button>
                 </div>
 
             </div>
@@ -481,7 +492,7 @@
         }
         if (gallerySection && gallerySection.classList.contains('active') && !isHoveringMenu) {
             if (customSquareCursor) customSquareCursor.style.opacity = '0'; 
-            if (mouseX < windowWidth / 2) { customArrowCursorLeft.classList.add('show'); customArrowCursorRight.classList.remove('show'); }
+            if (mouseX < windowWidth / 2) { customArrowCursorLeft.classList.add('add'); customArrowCursorRight.classList.remove('show'); }
             else { customArrowCursorRight.classList.add('show'); customArrowCursorLeft.classList.remove('show'); }
         } else {
             if (customSquareCursor) customSquareCursor.style.opacity = '1'; 
@@ -540,6 +551,17 @@
         { shape: [ [0,1,0],[1,1,1],[0,0,0] ],                  color: "rgba(70, 70, 70, 0.9)" },     
         { shape: [ [1,1,0],[0,1,1],[0,0,0] ],                  color: "rgba(200, 200, 200, 0.9)" }   
     ];
+
+    // 出現確率を均等にするための「7種1巡（7-Bag）」管理システム
+    let pieceBag = [];
+    function refillBag() {
+        pieceBag = [0, 1, 2, 3, 4, 5, 6];
+        // フィッシャー–イェーツのシャッフルアルゴリズムで袋の中身を完全にランダム化
+        for (let i = pieceBag.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pieceBag[i], pieceBag[j]] = [pieceBag[j], pieceBag[i]];
+        }
+    }
 
     class Piece {
         constructor(pieceObj) {
@@ -615,7 +637,7 @@
                     if (this.y + r < 0) {
                         isGameOver = true;
                         if (gameOverText) gameOverText.style.display = "block";
-                        if (btnHeaderToggle) btnHeaderToggle.innerText = "START";
+                        if (btnHeaderToggle) btnHeaderToggle.innerText = "▶";
                         stopTetris(); return;
                     }
                     board[this.y + r][this.x + c] = this.color;
@@ -633,7 +655,12 @@
     }
 
     let p, nextP;
-    function randomPiece() { let r = Math.floor(Math.random() * PIECES.length); return new Piece(PIECES[r]); }
+    // 均等化された出現ロジックからコマを生成
+    function randomPiece() {
+        if (pieceBag.length === 0) refillBag();
+        let nextIndex = pieceBag.pop();
+        return new Piece(PIECES[nextIndex]);
+    }
 
     function drawBoard() {
         if (!ctx) return;
@@ -669,8 +696,9 @@
         score = 0; isGameOver = false; isPaused = false; 
         if (scoreElement) scoreElement.innerText = score;
         if (gameOverText) gameOverText.style.display = "none";
-        if (btnHeaderToggle) btnHeaderToggle.innerText = "STOP";
+        if (btnHeaderToggle) btnHeaderToggle.innerText = "⏸";
         drawBoard();
+        refillBag(); // バッグを新しく初期化
         p = randomPiece(); nextP = randomPiece();
         p.draw(ctx); drawNext();
         runTimer();
@@ -686,7 +714,7 @@
     function stopTetris() {
         if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
         isPaused = true;
-        if (btnHeaderToggle) btnHeaderToggle.innerText = "START";
+        if (btnHeaderToggle) btnHeaderToggle.innerText = "▶";
     }
 
     // ==========================================
@@ -699,7 +727,7 @@
 
         if (e.key === " " || e.code === "Space") {
             e.preventDefault();
-            if (isPaused) { isPaused = false; if (btnHeaderToggle) btnHeaderToggle.innerText = "STOP"; runTimer(); } 
+            if (isPaused) { isPaused = false; if (btnHeaderToggle) btnHeaderToggle.innerText = "⏸"; runTimer(); } 
             else { stopTetris(); }
             return;
         }
@@ -716,14 +744,14 @@
     document.getElementById("btn-pc-start").addEventListener("click", () => { initTetris(); });
     document.getElementById("btn-pc-stop").addEventListener("click", () => { stopTetris(); });
 
-    // Mobile Header Toggle Button (START/STOP Integrated)
+    // Mobile Header Toggle Button (▶ / ⏸ Integrated)
     if (btnHeaderToggle) {
         btnHeaderToggle.addEventListener("click", () => {
             if (isGameOver) {
                 initTetris();
             } else if (isPaused) {
                 isPaused = false;
-                btnHeaderToggle.innerText = "STOP";
+                btnHeaderToggle.innerText = "⏸";
                 runTimer();
             } else {
                 stopTetris();
@@ -731,11 +759,47 @@
         });
     }
 
-    // Mobile Virtual Controllers
-    document.getElementById("btn-left").addEventListener("click", () => { if (!isPaused && !isGameOver) p.moveLeft(); });
+    // Mobile Virtual Controllers with Long Press (Continuous Movement) Logic
+    let mobileHoldTimer = null;
+    let mobileHoldInterval = null;
+
+    function startButtonHold(actionFunction) {
+        if (isPaused || isGameOver) return;
+        actionFunction(); // 1回クリック時の即時実行
+        
+        // 長押し判定用のタイマー設定（200ms押し続けたら連打開始）
+        mobileHoldTimer = setTimeout(() => {
+            mobileHoldInterval = setInterval(() => {
+                if (!isPaused && !isGameOver) actionFunction();
+            }, 60); // 60msごとに連続移動
+        }, 200);
+    }
+
+    function clearButtonHold() {
+        if (mobileHoldTimer) clearTimeout(mobileHoldTimer);
+        if (mobileHoldInterval) clearInterval(mobileHoldInterval);
+    }
+
+    // 矢印ボタンにタップ＆長押しイベントを設定（PCマウス/スマホ実機双方に対応）
+    const leftBtn = document.getElementById("btn-left");
+    leftBtn.addEventListener("mousedown", () => startButtonHold(() => p.moveLeft()));
+    leftBtn.addEventListener("touchstart", (e) => { e.preventDefault(); startButtonHold(() => p.moveLeft()); });
+
+    const rightBtn = document.getElementById("btn-right");
+    rightBtn.addEventListener("mousedown", () => startButtonHold(() => p.moveRight()));
+    rightBtn.addEventListener("touchstart", (e) => { e.preventDefault(); startButtonHold(() => p.moveRight()); });
+
+    const downBtn = document.getElementById("btn-down");
+    downBtn.addEventListener("mousedown", () => startButtonHold(() => p.moveDown()));
+    downBtn.addEventListener("touchstart", (e) => { e.preventDefault(); startButtonHold(() => p.moveDown()); });
+
+    // 回転ボタン（R）は誤動作防止のため通常の1回タップのみに維持
     document.getElementById("btn-rotate").addEventListener("click", () => { if (!isPaused && !isGameOver) p.rotate(); });
-    document.getElementById("btn-right").addEventListener("click", () => { if (!isPaused && !isGameOver) p.moveRight(); });
-    document.getElementById("btn-down").addEventListener("click", () => { if (!isPaused && !isGameOver) p.moveDown(); });
+
+    // グローバルでボタンを離した際のイベントを解除
+    window.addEventListener("mouseup", clearButtonHold);
+    window.addEventListener("touchend", clearButtonHold);
+    window.addEventListener("touchcancel", clearButtonHold);
 
     // Difficulty Settings Handling (PC & Mobile)
     const modeButtons = document.querySelectorAll(".mode-btn");
