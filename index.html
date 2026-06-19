@@ -10,18 +10,15 @@
     <style>
         /* ==========================================
            位置調整用：可変パラメータ（CSS変数）
-           ゲーム画面の位置を微調整したい場合はここを書き換えてください
            ========================================== */
         :root {
-            /* PC版のテトリス位置調整 */
-            --game-pc-top: 15px;         /* ヘッダー下からの距離 */
-            --game-pc-left-offset: 0px;  /* 左右の位置をずらしたい場合 (例: -50px で左、50px で右へ) */
-            --sidebar-pc-right: 10%;     /* 右側操作パネルの画面右端からの距離 */
-            --sidebar-pc-top: 80px;      /* 右側操作パネルの上からの距離 */
+            --game-pc-top: 15px;         
+            --game-pc-left-offset: 0px;  
+            --sidebar-pc-right: 3%;     
+            --sidebar-pc-top: 80px;      
 
-            /* スマホ版のテトリス位置調整 */
-            --game-mobile-top: 35px;     /* 上部からの距離 */
-            --game-mobile-scale: 0.75;   /* ゲーム画面の拡大・縮小率 */
+            --game-mobile-top: 20px;     
+            --game-mobile-scale: 0.98;   /* スマートフォンの画面サイズギリギリまで拡張 */
         }
 
         html, body {
@@ -47,7 +44,6 @@
         /* PC版のレイアウト */
         @media (min-width: 769px) {
             .menu-column-overlay {
-                /* 右端を固定したまま、幅を狭めて左端をより右へ寄せました */
                 width: 25% !important; 
                 left: auto !important;
                 right: 0 !important;
@@ -68,7 +64,7 @@
                 margin: 0 auto;
                 display: flex;
                 align-items: flex-start;
-                transform: translateX(var(--game-pc-left-offset)); /* 左右位置の可変対応 */
+                transform: translateX(var(--game-pc-left-offset)); 
             }
             .game-sidebar-right {
                 position: absolute;
@@ -77,7 +73,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 25px;
-                width: 220px;
+                width: 190px;
                 text-align: left;
             }
             .header-mobile-controls, .mobile-modal-overlay, .game-controls-mobile {
@@ -100,6 +96,14 @@
             letter-spacing: 0.1em;
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+        .square-toggle-btn {
+            max-width: 40px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
         }
         .action-btn {
             color: #fff;
@@ -141,16 +145,79 @@
             pointer-events: auto !important;
         }
 
-        /* ==========================================
-           スマートフォン版のレイアウト調整（768px以下）
-           ========================================== */
+        /* 横幅を600pxに大幅拡張したシューティングコンテナ */
+        .shooting-container {
+            display: none; 
+            align-items: flex-start;
+            gap: 15px;
+            background-color: #0b0b0b;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .shooting-side-panel-left {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 95px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        #shooting-canvas {
+            background-color: #040407;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            display: block;
+            box-shadow: 0 0 25px rgba(255,255,255,0.06);
+        }
+
+        /* ステージクリア用カスタムポップアップ */
+        .clear-modal-overlay {
+            position: absolute;
+            top: 12px;
+            left: 122px; /* サイドパネルの横幅を考慮してキャンバス上に配置 */
+            width: 600px;
+            height: 480px;
+            background: rgba(4, 4, 7, 0.85);
+            backdrop-filter: blur(4px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border: 2px solid rgba(34, 238, 34, 0.3);
+            box-sizing: border-box;
+        }
+        .clear-modal-title {
+            color: #22ee22;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .clear-modal-btn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 10px 24px;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .clear-modal-btn:hover {
+            background: rgba(34, 238, 34, 0.1);
+            border-color: #22ee22;
+            color: #22ee22;
+        }
+
+        /* スマホ用全幅拡張調整 */
         @media (max-width: 768px) {
             header {
                 position: fixed !important;
-                top: calc(24px + env(safe-area-inset-top)) !important;
+                top: calc(16px + env(safe-area-inset-top)) !important;
                 left: 0 !important;
                 width: 100% !important;
-                padding: 0 24px !important;
+                padding: 0 16px !important;
                 display: flex !important;
                 justify-content: space-between !important;
                 align-items: center !important;
@@ -159,19 +226,16 @@
             }
 
             header .logo {
-                font-size: 1rem !important;
+                font-size: 0.9rem !important;
                 text-align: left !important;
-                letter-spacing: 0.2em !important;
+                letter-spacing: 0.15em !important;
                 margin: 0 !important;
-                line-height: 1 !important;
             }
 
             .header-mobile-controls {
                 position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                display: none; /* 初期状態は非表示（JSで制御） */
-                gap: 8px !important;
+                display: none; 
+                gap: 6px !important;
                 align-items: center !important;
             }
 
@@ -179,59 +243,46 @@
                 background: transparent !important;
                 color: rgba(255, 255, 255, 0.8) !important;
                 border: 1px solid rgba(255, 255, 255, 0.3) !important;
-                font-size: 0.7rem !important;
-                font-family: inherit !important;
-                letter-spacing: 0.05em !important;
-                cursor: pointer !important;
-                height: 34px !important;
-                padding: 0 12px !important;
+                font-size: 0.65rem !important;
+                height: 32px !important;
+                padding: 0 10px !important;
                 display: flex !important;
                 justify-content: center !important;
                 align-items: center !important;
-                box-sizing: border-box !important;
             }
 
-            /* スタート/ストップ用：完全な正方形（スクエア） */
             .header-mobile-btn.type-square {
-                width: 34px !important;
+                width: 32px !important;
                 padding: 0 !important;
-                font-size: 0.8rem !important; /* 記号表示用に見栄えを微調整 */
-                letter-spacing: 0em !important;
+                font-size: 0.75rem !important; 
             }
 
             header nav {
                 position: fixed !important;
-                bottom: calc(24px + env(safe-area-inset-bottom)) !important;
-                right: 24px !important;
+                bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+                right: 16px !important;
                 left: auto !important;
                 top: auto !important;
                 z-index: 10001 !important;
             }
 
-            /* ゲーム画面表示時のみ適用するスマホメニュー・十字キーのスタイル変更 */
             body.is-game-page header {
                 flex-direction: column !important;
                 align-items: flex-start !important;
             }
             body.is-game-page header nav {
                 position: fixed !important;
-                bottom: calc(24px + env(safe-area-inset-bottom)) !important;
-                left: 24px !important; /* 左端寄せ（Kotaro Okabeの左端位置24pxと同期） */
+                bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+                left: 16px !important; 
                 right: auto !important;
-                margin-top: 0 !important;
-                width: auto !important;
             }
             body.is-game-page header nav ul {
                 display: flex !important;
-                justify-content: flex-start !important; /* 左揃え */
-                padding: 0 !important;
-                margin: 0 !important;
-                list-style: none !important;
-                gap: 15px !important;
+                gap: 12px !important;
             }
             body.is-game-page .header-mobile-controls {
                 position: absolute !important;
-                right: 24px !important;
+                right: 16px !important;
                 top: 0 !important;
             }
 
@@ -244,65 +295,35 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: flex-start;
-                width: 100%;
+                width: 100vw;
                 height: 100vh;
                 padding-top: var(--game-mobile-top);
                 box-sizing: border-box;
+                overflow: hidden;
             }
 
-            .game-container {
+            .game-container, .shooting-container {
                 transform: scale(var(--game-mobile-scale));
                 transform-origin: top center;
                 margin: 0 auto;
+                width: 100% !important; /* 左右サイズ限界まで拡張 */
+                max-width: 720px;
+            }
+            
+            .shooting-container {
+                flex-direction: row !important; 
+                padding: 6px !important;
+                gap: 6px !important;
             }
 
-            /* スマホ操作ボタン：右端寄せ＆凸型（十字）レイアウトへの変更 */
+            .clear-modal-overlay {
+                left: 107px; /* モバイルスケール時の微調整 */
+                width: calc(100% - 115px);
+                height: calc(100% - 12px);
+            }
+
             .game-controls-mobile {
-                position: fixed !important;
-                bottom: calc(40px + env(safe-area-inset-bottom)) !important; 
-                right: 24px !important; /* 右端配置 */
-                left: auto !important;
-                transform: none !important;
-                display: grid !important;
-                grid-template-columns: repeat(3, 45px) !important;
-                grid-template-rows: repeat(2, 45px) !important; /* 2行の凸型に整理 */
-                gap: 5px !important;
-                z-index: 10000 !important;
-                width: auto !important;
-            }
-
-            /* 各ボタンの凸型（3つのキーとその真ん中の下に1つ）グリッド位置割り当て */
-            .game-controls-mobile #btn-rotate {
-                grid-column: 2 !important;
-                grid-row: 1 !important;
-            }
-            .game-controls-mobile #btn-left {
-                grid-column: 1 !important;
-                grid-row: 1 !important;
-            }
-            .game-controls-mobile #btn-right {
-                grid-column: 3 !important;
-                grid-row: 1 !important;
-            }
-            .game-controls-mobile #btn-down {
-                grid-column: 2 !important;
-                grid-row: 2 !important; /* 3つのキーの真ん中（2列目）の下（2行目） */
-            }
-
-            /* 十字キーボタンの基本スタイル調整 */
-            .game-btn {
-                width: 100% !important;
-                height: 100% !important;
-                background: rgba(255, 255, 255, 0.1) !important;
-                border: 1px solid rgba(255, 255, 255, 0.3) !important;
-                color: #fff !important;
-                font-size: 1rem !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                cursor: pointer !important;
-                padding: 0 !important;
-                box-sizing: border-box !important;
+                display: none !important; 
             }
 
             .mobile-modal-overlay {
@@ -325,23 +346,6 @@
                 opacity: 1;
                 pointer-events: auto;
             }
-            .mobile-modal-content {
-                background: #111;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                width: 280px;
-                padding: 30px 20px;
-                display: flex;
-                flex-direction: column;
-                gap: 24px;
-            }
-            .mobile-modal-close {
-                background: transparent;
-                color: rgba(255, 255, 255, 0.5);
-                border: none;
-                align-self: flex-end;
-                font-size: 0.8rem;
-                cursor: pointer;
-            }
         }
     </style>
 </head>
@@ -361,6 +365,7 @@
         
         <div class="header-mobile-controls" id="mobile-header-actions">
             <button type="button" class="header-mobile-btn type-square" id="btn-header-toggle">▶</button>
+            <button type="button" class="header-mobile-btn type-square" id="btn-mobile-shooting-toggle" title="シューティングに切り替え">🚀</button>
             <button type="button" class="header-mobile-btn" id="btn-header-option">OPTION</button>
         </div>
 
@@ -391,7 +396,6 @@
                     <div class="gallery-slide"><img src="gallery-06.jpg" alt="作品6"><div class="work-title">className</div></div>
                     <div class="gallery-slide"><img src="gallery-07.jpg" alt="作品7"><div class="work-title">「intermediation」</div></div>
                     <div class="gallery-slide"><img src="gallery-08.jpg" alt="作品8"><div class="work-title">「intermediation」</div></div>
-                    <div class="gallery-slide"><img src="gallery-09.jpg" alt="作品9"><div class="work-title">「intermediation」</div></div>
                     <div class="gallery-slide"><img src="gallery-10.jpg" alt="作品10"><div class="work-title">「intermediation」</div></div>
                     <div class="gallery-slide"><img src="gallery-11.jpg" alt="作品11"><div class="work-title">「intermediation」</div></div>
                     <div class="gallery-slide"><img src="gallery-12.jpg" alt="作品12"><div class="work-title">「intermediation」</div></div>
@@ -411,7 +415,7 @@
         <section id="game" class="page">
             <div class="game-wrapper">
                 
-                <div class="game-container">
+                <div class="game-container" id="tetris-view">
                     <canvas id="tetris-canvas" width="240" height="480"></canvas>
                     <div class="game-side-panel">
                         <div class="panel-section">
@@ -426,22 +430,57 @@
                     </div>
                 </div>
 
+                <div class="shooting-container" id="shooting-view">
+                    <div class="shooting-side-panel-left">
+                        <div class="panel-section">
+                            <div class="panel-label">STAGE</div>
+                            <div id="shooting-stage" class="panel-value">1 / 30</div>
+                        </div>
+                        <div class="panel-section">
+                            <div class="panel-label">SCORE</div>
+                            <div id="shooting-score" class="panel-value">0</div>
+                        </div>
+                        <div class="panel-section">
+                            <div class="panel-label">LIVES</div>
+                            <div id="shooting-lives" class="panel-value">3</div>
+                        </div>
+                        <div class="panel-section">
+                            <div class="panel-label">WEAPON</div>
+                            <div id="shooting-weapon" class="panel-value" style="color: #00ffff; font-size: 0.7rem;">NORMAL</div>
+                        </div>
+                        <div id="shooting-status-text" class="panel-value" style="color: #ff3333; font-size: 0.75rem; letter-spacing: 0.1em; margin-top: 10px; display: none;">GAME OVER</div>
+                    </div>
+                    <canvas id="shooting-canvas" width="600" height="480"></canvas>
+
+                    <!-- 新設：ステージクリア・コンテニュー確認モーダル -->
+                    <div class="clear-modal-overlay" id="shooting-clear-modal">
+                        <div class="clear-modal-title">STAGE CLEAR</div>
+                        <button type="button" class="clear-modal-btn" id="btn-next-stage">CONTINUE TO NEXT STAGE</button>
+                    </div>
+                </div>
+
                 <div class="game-sidebar-right">
                     <div>
                         <div class="sidebar-section-title">GAME SYSTEM</div>
                         <div class="btn-group-row">
                             <button type="button" class="action-btn" id="btn-pc-start">START</button>
                             <button type="button" class="action-btn" id="btn-pc-stop">STOP</button>
+                            <button type="button" class="action-btn square-toggle-btn" id="btn-pc-shooting-toggle" title="シューティングゲームに切り替え">🚀</button>
                         </div>
                     </div>
 
-                    <div class="game-controls-pc">
-                        <div class="pc-guide-title" style="margin-bottom:8px;">CONTROLS</div>
+                    <div class="game-controls-pc" id="tetris-controls-guide">
+                        <div class="pc-guide-title" style="margin-bottom:8px;">CONTROLS (TETRIS)</div>
                         <div class="pc-guide-item"><span class="pc-key">←</span><span class="pc-action">MOVE LEFT</span></div>
                         <div class="pc-guide-item"><span class="pc-key">→</span><span class="pc-action">MOVE RIGHT</span></div>
                         <div class="pc-guide-item"><span class="pc-key">↑</span><span class="pc-action">ROTATE</span></div>
                         <div class="pc-guide-item"><span class="pc-key">↓</span><span class="pc-action">DROP</span></div>
-                        <div class="pc-guide-item"><span class="pc-key">Space</span><span class="pc-action">START / STOP</span></div>
+                    </div>
+
+                    <div class="game-controls-pc" id="shooting-controls-guide" style="display:none;">
+                        <div class="pc-guide-title" style="margin-bottom:8px;">CONTROLS (SPACE)</div>
+                        <div class="pc-guide-item" style="font-size:0.6rem; color:rgba(255,255,255,0.8); line-height:1.4; margin-bottom:8px;">👉 【PC新機能】画面内をマウスやトラックパッドで左右になぞるだけで自機が滑らかに追従移動します！(A/Dや←/→キーでも操作可能)</div>
+                        <div class="pc-guide-item" style="font-size:0.55rem; color:rgba(255,255,255,0.4); line-height:1.4;">敵を倒すとドロップするアイテムカプセル(W:3方向, S:超連射, P:貫通レーザー, O:味方子機, L:回復)を拾って次々現れるステージを突破せよ！</div>
                     </div>
 
                     <div>
@@ -450,40 +489,29 @@
                             <button type="button" class="mode-btn active" data-speed="500">EASY</button>
                             <button type="button" class="mode-btn" data-speed="350">NORMAL</button>
                         </div>
-                        <div class="btn-group-row">
-                            <button type="button" class="mode-btn" data-speed="200">HARD</button>
-                            <button type="button" class="mode-btn" data-speed="100">V.HARD</button>
-                        </div>
                     </div>
                 </div>
 
-                <div class="game-controls-mobile">
+                <div class="game-controls-mobile" id="tetris-mobile-arrows">
                     <button type="button" class="game-btn" id="btn-left">←</button>
                     <button type="button" class="game-btn" id="btn-rotate">↻</button>
                     <button type="button" class="game-btn" id="btn-right">→</button>
                     <button type="button" class="game-btn" id="btn-down">↓</button>
                 </div>
-
             </div>
 
             <div class="mobile-modal-overlay" id="mobile-modal">
                 <div class="mobile-modal-content">
                     <button type="button" class="mobile-modal-close" id="btn-modal-close">CLOSE ✕</button>
-                    
                     <div>
                         <div class="sidebar-section-title">DIFFICULTY MODE</div>
-                        <div class="btn-group-row" style="margin-bottom: 8px;">
+                        <div class="btn-group-row">
                             <button type="button" class="mode-btn active" data-speed="500">EASY</button>
                             <button type="button" class="mode-btn" data-speed="350">NORMAL</button>
-                        </div>
-                        <div class="btn-group-row">
-                            <button type="button" class="mode-btn" data-speed="200">HARD</button>
-                            <button type="button" class="mode-btn" data-speed="100">V.HARD</button>
                         </div>
                     </div>
                 </div>
             </div>
-
         </section>
 
         <section id="contact" class="page">
@@ -513,6 +541,7 @@
     let currentSlideIndex = 0; 
     const totalSlides = 21;    
     let lastMouseX = 0;        
+    let activeGameMode = 'tetris';
 
     navLinks.forEach(link => {
         const targetId = link.getAttribute('data-target');
@@ -529,23 +558,15 @@
             const targetPage = document.getElementById(targetId);
             if (targetPage) targetPage.classList.add('active');
 
-            // Gameタブの時のみ、専用のクラスをbodyに付与してメニュー・操作キー位置を切り替える
             if (targetId === 'game') {
                 document.body.classList.add('is-game-page');
                 if (mobileHeaderActions) mobileHeaderActions.style.display = 'flex';
-                initTetris();
+                if (activeGameMode === 'tetris') initTetris(); else initShooting();
             } else {
                 document.body.classList.remove('is-game-page');
                 if (mobileHeaderActions) mobileHeaderActions.style.display = 'none';
                 stopTetris();
-            }
-
-            if (targetId === 'gallery') {
-                currentSlideIndex = 0; 
-                const slides = document.querySelectorAll('.gallery-slide');
-                slides.forEach((slide, idx) => {
-                    if (idx === 0) slide.classList.add('active'); else slide.classList.remove('active');
-                });
+                stopShooting();
             }
         });
     });
@@ -562,7 +583,7 @@
         }
         if (gallerySection && gallerySection.classList.contains('active') && !isHoveringMenu) {
             if (customSquareCursor) customSquareCursor.style.opacity = '0'; 
-            if (mouseX < windowWidth / 2) { customArrowCursorLeft.classList.add('add'); customArrowCursorRight.classList.remove('show'); }
+            if (mouseX < windowWidth / 2) { customArrowCursorLeft.classList.add('show'); customArrowCursorRight.classList.remove('show'); }
             else { customArrowCursorRight.classList.add('show'); customArrowCursorLeft.classList.remove('show'); }
         } else {
             if (customSquareCursor) customSquareCursor.style.opacity = '1'; 
@@ -604,13 +625,7 @@
     const gameOverText = document.getElementById('game-over-text');
 
     const ROW = 20; const COL = 10; const SQ = 24; const VACANT = "#0b0b0b"; 
-
-    let board = [];
-    let gameInterval = null;
-    let score = 0;
-    let isGameOver = false;
-    let isPaused = true;       
-    let currentSpeed = 500;    
+    let board = []; let gameInterval = null; let score = 0; let isGameOver = false; let isPaused = true; let currentSpeed = 500;    
 
     const PIECES = [
         { shape: [ [0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0] ], color: "rgba(255, 255, 255, 0.95)" }, 
@@ -626,8 +641,7 @@
     function refillBag() {
         pieceBag = [0, 1, 2, 3, 4, 5, 6];
         for (let i = pieceBag.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [pieceBag[i], pieceBag[j]] = [pieceBag[j], pieceBag[i]];
+            const j = Math.floor(Math.random() * (i + 1)); [pieceBag[i], pieceBag[j]] = [pieceBag[j], pieceBag[i]];
         }
     }
 
@@ -652,10 +666,8 @@
             for (let r = 0; r < this.activeTetromino.length; r++) {
                 for (let c = 0; c < this.activeTetromino[r].length; c++) {
                     if (this.activeTetromino[r][c]) {
-                        targetCtx.fillStyle = this.color;
-                        targetCtx.fillRect((this.x + c) * size + offsetX, (this.y + r) * size + offsetY, size, size);
-                        targetCtx.strokeStyle = "#0b0b0b"; targetCtx.lineWidth = 1;
-                        targetCtx.strokeRect((this.x + c) * size + offsetX, (this.y + r) * size + offsetY, size, size);
+                        targetCtx.fillStyle = this.color; targetCtx.fillRect((this.x + c) * size + offsetX, (this.y + r) * size + offsetY, size, size);
+                        targetCtx.strokeStyle = "#0b0b0b"; targetCtx.lineWidth = 1; targetCtx.strokeRect((this.x + c) * size + offsetX, (this.y + r) * size + offsetY, size, size);
                     }
                 }
             }
@@ -676,8 +688,7 @@
         }
         moveDown() {
             if (this.collision(0, 1, this.activeTetromino)) {
-                this.lock();
-                if (!isGameOver) { p = nextP; nextP = randomPiece(); drawBoard(); p.draw(ctx); drawNext(); }
+                this.lock(); if (!isGameOver) { p = nextP; nextP = randomPiece(); drawBoard(); p.draw(ctx); drawNext(); }
             } else { this.unDraw(); this.y++; this.draw(ctx); }
         }
         moveRight() { if (!this.collision(1, 0, this.activeTetromino)) { this.unDraw(); this.x++; this.draw(ctx); } }
@@ -702,12 +713,7 @@
             for (let r = 0; r < this.activeTetromino.length; r++) {
                 for (let c = 0; c < this.activeTetromino[r].length; c++) {
                     if (!this.activeTetromino[r][c]) continue;
-                    if (this.y + r < 0) {
-                        isGameOver = true;
-                        if (gameOverText) gameOverText.style.display = "block";
-                        if (btnHeaderToggle) btnHeaderToggle.innerText = "▶";
-                        stopTetris(); return;
-                    }
+                    if (this.y + r < 0) { isGameOver = true; if (gameOverText) gameOverText.style.display = "block"; if (btnHeaderToggle) btnHeaderToggle.innerText = "▶"; stopTetris(); return; }
                     board[this.y + r][this.x + c] = this.color;
                 }
             }
@@ -723,27 +729,19 @@
     }
 
     let p, nextP;
-    function randomPiece() {
-        if (pieceBag.length === 0) refillBag();
-        let nextIndex = pieceBag.pop();
-        return new Piece(PIECES[nextIndex]);
-    }
-
+    function randomPiece() { if (pieceBag.length === 0) refillBag(); let nextIndex = pieceBag.pop(); return new Piece(PIECES[nextIndex]); }
     function drawBoard() {
         if (!ctx) return;
         for (let r = 0; r < ROW; r++) {
             for (let c = 0; c < COL; c++) {
                 ctx.fillStyle = board[r][c]; ctx.fillRect(c * SQ, r * SQ, SQ, SQ);
-                ctx.strokeStyle = board[r][c] === VACANT ? "rgba(255, 255, 255, 0.08)" : "#0b0b0b";
-                ctx.lineWidth = 1; ctx.strokeRect(c * SQ, r * SQ, SQ, SQ);
+                ctx.strokeStyle = board[r][c] === VACANT ? "rgba(255, 255, 255, 0.08)" : "#0b0b0b"; ctx.lineWidth = 1; ctx.strokeRect(c * SQ, r * SQ, SQ, SQ);
             }
         }
     }
-
     function drawNext() {
         if (!nextCtx) return; nextCtx.fillStyle = VACANT; nextCtx.fillRect(0, 0, 80, 80);
-        let dummy = { shape: nextP.tetromino[0], color: nextP.color }; let nextPattern = dummy.shape;
-        let xOffset = 20; let yOffset = 25;
+        let dummy = { shape: nextP.tetromino[0], color: nextP.color }; let nextPattern = dummy.shape; let xOffset = 20; let yOffset = 25;
         if (nextPattern.length === 2) { xOffset = 25; yOffset = 25; } if (nextPattern.length === 4) { xOffset = 10; yOffset = 15; } 
         for (let r = 0; r < nextPattern.length; r++) {
             for (let c = 0; c < nextPattern[r].length; c++) {
@@ -754,124 +752,433 @@
             }
         }
     }
-
     function initTetris() {
-        if (!ctx) return;
-        if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
-        board = [];
-        for (let r = 0; r < ROW; r++) { board[r] = []; for (let c = 0; c < COL; c++) { board[r][c] = VACANT; } }
-        score = 0; isGameOver = false; isPaused = false; 
-        if (scoreElement) scoreElement.innerText = score;
-        if (gameOverText) gameOverText.style.display = "none";
+        if (!ctx) return; stopShooting(); if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
+        board = []; for (let r = 0; r < ROW; r++) { board[r] = []; for (let c = 0; c < COL; c++) { board[r][c] = VACANT; } }
+        score = 0; isGameOver = false; isPaused = false; if (scoreElement) scoreElement.innerText = score; if (gameOverText) gameOverText.style.display = "none";
+        if (btnHeaderToggle) btnHeaderToggle.innerText = "⏸"; drawBoard(); refillBag(); p = randomPiece(); nextP = randomPiece(); p.draw(ctx); drawNext(); runTimer();
+    }
+    function runTimer() { if (gameInterval) { clearInterval(gameInterval); gameInterval = null; } gameInterval = setInterval(() => { if (!isPaused && !isGameOver) { p.moveDown(); } }, currentSpeed); }
+    function stopTetris() { if (gameInterval) { clearInterval(gameInterval); gameInterval = null; } isPaused = true; if (btnHeaderToggle) btnHeaderToggle.innerText = "▶"; }
+
+
+    // ==========================================
+    // 2D VERTICAL SHOOTING ENGINE (PRO PROGRESSION)
+    // ==========================================
+    const sCanvas = document.getElementById('shooting-canvas');
+    const sCtx = sCanvas ? sCanvas.getContext('2d') : null;
+    const sStageElem = document.getElementById('shooting-stage');
+    const sScoreElem = document.getElementById('shooting-score');
+    const sLivesElem = document.getElementById('shooting-lives');
+    const sWeaponElem = document.getElementById('shooting-weapon');
+    const sStatusText = document.getElementById('shooting-status-text');
+    const sClearModal = document.getElementById('shooting-clear-modal');
+    const btnNextStage = document.getElementById('btn-next-stage');
+
+    let sAnimationId = null;
+    let sScore = 0; let sLives = 3; let sStage = 1;
+    let sIsGameOver = false; let sIsPaused = true;
+
+    // 【修正】playerオブジェクトに見た目の大きさ(w, h)とは別に、当たり判定用の極小の大きさ(hitW, hitH)を新設
+    let player = { x: 285, y: 410, w: 20, h: 20, hitW: 20, hitH: 20, speed: 7.5 };
+    let bullets = [];      
+    let enemyBullets = []; 
+    let enemies = [];
+    let items = [];        
+    let stars = [];
+    let enemyKillsInStage = 0;
+    
+    let currentWeapon = 'NORMAL'; 
+    let hasOption = false; 
+    let shootCooldown = 0;
+
+    let isGoalSpawned = false;
+    let goalY = -35;
+
+    for(let i=0; i<85; i++) {
+        stars.push({ x: Math.random()*600, y: Math.random()*480, speed: Math.random()*3.5 + 1.5, size: Math.random()*1.8 });
+    }
+
+    function drawSpaceShip(ctx, x, y, w, h, isEnemy, isOptionShip = false) {
+        ctx.beginPath();
+        if (!isEnemy) {
+            if (isOptionShip) {
+                ctx.moveTo(x + w / 2, y);
+                ctx.lineTo(x + w, y + h);
+                ctx.lineTo(x + w / 2, y + h * 0.7);
+                ctx.lineTo(x, y + h);
+            } else {
+                ctx.moveTo(x + w / 2, y); 
+                ctx.lineTo(x + w, y + h * 0.8); 
+                ctx.lineTo(x + w * 0.75, y + h * 0.7); 
+                ctx.lineTo(x + w * 0.65, y + h); 
+                ctx.lineTo(x + w * 0.35, y + h); 
+                ctx.lineTo(x + w * 0.25, y + h * 0.7); 
+                ctx.lineTo(x, y + h * 0.8); 
+            }
+        } else {
+            ctx.moveTo(x + w / 2, y + h); 
+            ctx.lineTo(x + w, y + h * 0.2); 
+            ctx.lineTo(x + w * 0.8, y); 
+            ctx.lineTo(x + w * 0.5, y + h * 0.4); 
+            ctx.lineTo(x + w * 0.2, y); 
+            ctx.lineTo(x, y + h * 0.2); 
+        }
+        ctx.closePath();
+        ctx.fill();
+
+        // コア（判定の大きさ）を視覚的に確認できるようにドットを描画（不要なら削除してください）
+        if (!isEnemy && !isOptionShip) {
+            ctx.fillStyle = '#ff0055';
+            ctx.fillRect(x + w/2 - player.hitW/2, y + h/2 - player.hitH/2, player.hitW, player.hitH);
+        }
+    }
+
+    function initShooting() {
+        stopTetris();
+        if (sAnimationId) cancelAnimationFrame(sAnimationId);
+        sScore = 0; sLives = 3; sStage = 1; enemyKillsInStage = 0;
+        sIsGameOver = false; sIsPaused = false; isGoalSpawned = false;
+        currentWeapon = 'NORMAL'; hasOption = false;
+        goalY = -35; player.x = 285; player.y = 410;
+        bullets = []; enemyBullets = []; enemies = []; items = [];
+        if (sStatusText) sStatusText.style.display = 'none';
+        if (sClearModal) sClearModal.style.display = 'none';
         if (btnHeaderToggle) btnHeaderToggle.innerText = "⏸";
-        drawBoard();
-        refillBag();
-        p = randomPiece(); nextP = randomPiece();
-        p.draw(ctx); drawNext();
-        runTimer();
+        updateShootingUI();
+        shootingLoop();
     }
 
-    function runTimer() {
-        if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
-        gameInterval = setInterval(() => {
-            if (!isPaused && !isGameOver) { p.moveDown(); }
-        }, currentSpeed);
+    function stopShooting() { sIsPaused = true; if (sAnimationId) cancelAnimationFrame(sAnimationId); if (btnHeaderToggle) btnHeaderToggle.innerText = "▶"; }
+    
+    function updateShootingUI() {
+        if (sStageElem) sStageElem.innerText = `${sStage} / 30`;
+        if (sScoreElem) sScoreElem.innerText = sScore;
+        if (sLivesElem) sLivesElem.innerText = sLives;
+        if (sWeaponElem) {
+            let optText = hasOption ? " + OPTION" : "";
+            sWeaponElem.innerText = currentWeapon + optText;
+        }
     }
 
-    function stopTetris() {
-        if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
-        isPaused = true;
-        if (btnHeaderToggle) btnHeaderToggle.innerText = "▶";
+    function shootingLoop() {
+        if (sIsPaused || sIsGameOver) return;
+
+        sCtx.fillStyle = '#040407'; sCtx.fillRect(0, 0, 600, 480);
+
+        sCtx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+        stars.forEach(star => {
+            star.y += star.speed; 
+            if(star.y > 480) { star.y = 0; star.x = Math.random()*600; }
+            sCtx.fillRect(star.x, star.y, star.size, star.size);
+        });
+
+        if (enemyKillsInStage >= 15 && !isGoalSpawned) {
+            isGoalSpawned = true; goalY = -35;
+        }
+
+        if (isGoalSpawned) {
+            if (goalY < 95) goalY += 0.8; 
+            sCtx.strokeStyle = '#22ee22'; sCtx.lineWidth = 3;
+            sCtx.beginPath(); sCtx.moveTo(0, goalY); sCtx.lineTo(600, goalY); sCtx.stroke();
+            sCtx.fillStyle = '#22ee22'; sCtx.font = '11px monospace'; sCtx.fillText("=== GOAL LINE ===", 245, goalY - 10);
+
+            // 【修正】自機がゴールラインを超えた際、自動移行せず「STAGE CLEAR」の選択モーダルを表示する
+            if (player.y <= goalY + 4) {
+                stopShooting();
+                if (sStage < 30) {
+                    if (sClearModal) sClearModal.style.display = 'flex';
+                } else {
+                    sIsGameOver = true;
+                    if (sStatusText) { sStatusText.innerText = "GAME CLEAR"; sStatusText.style.display = 'block'; sStatusText.style.color = '#22ee22'; }
+                }
+                return; // ループを抜ける
+            }
+        }
+
+        sCtx.fillStyle = '#ffffff';
+        drawSpaceShip(sCtx, player.x, player.y, player.w, player.h, false);
+        sCtx.fillStyle = Math.random() > 0.5 ? '#00ffff' : '#ff3300';
+        sCtx.fillRect(player.x + player.w*0.35, player.y + player.h, 3, 5);
+        sCtx.fillRect(player.x + player.w*0.55, player.y + player.h, 3, 5);
+
+        let optionX = player.x - 25;
+        let optionY = player.y + 15;
+        if (hasOption) {
+            sCtx.fillStyle = '#aaaaaa';
+            drawSpaceShip(sCtx, optionX, optionY, 14, 14, false, true);
+        }
+
+        let baseInterval = (currentWeapon === 'FAST') ? 7 : 15; 
+        if (shootCooldown > 0) shootCooldown--;
+        else {
+            let startX = player.x + player.w / 2;
+            let startY = player.y - 4;
+
+            if (currentWeapon === 'LASER') {
+                bullets.push({ x: startX, y: startY, vx: 0, vy: -10, type: 'LASER', w: 4, h: 22 });
+            } else if (currentWeapon === '3WAY') {
+                bullets.push({ x: startX, y: startY, vx: 0, vy: -8.5, type: 'BEAM', w: 3, h: 10 });
+                bullets.push({ x: startX, y: startY, vx: -2.2, vy: -8.0, type: 'BEAM', w: 3, h: 10 });
+                bullets.push({ x: startX, y: startY, vx: 2.2, vy: -8.0, type: 'BEAM', w: 3, h: 10 });
+            } else {
+                bullets.push({ x: startX, y: startY, vx: 0, vy: -9, type: 'BEAM', w: 2.5, h: 9 });
+            }
+
+            if (hasOption) {
+                bullets.push({ x: optionX + 7, y: optionY, vx: -0.5, vy: -8.5, type: 'BEAM', w: 2, h: 8 });
+            }
+            shootCooldown = baseInterval;
+        }
+
+        bullets.forEach((b, bIdx) => {
+            b.x += b.vx; b.y += b.vy;
+            if (b.type === 'LASER') {
+                sCtx.fillStyle = '#ff00ff'; 
+                sCtx.fillRect(b.x - b.w/2, b.y, b.w, b.h);
+            } else {
+                sCtx.fillStyle = '#00ffff'; 
+                sCtx.fillRect(b.x - b.w/2, b.y, b.w, b.h);
+            }
+            if(b.y < -30 || b.x < -20 || b.x > 620) bullets.splice(bIdx, 1);
+        });
+
+        let spawnChance = 0.02 + (sStage * 0.002);
+        if (!isGoalSpawned && Math.random() < Math.min(spawnChance, 0.09) && enemies.length < 9) {
+            enemies.push({
+                x: Math.random() * (550) + 15, y: -30, w: 26, h: 26,
+                speed: Math.random() * 1.2 + 1.2 + (sStage * 0.05),
+                shootTimer: Math.random() * 55 + 35
+            });
+        }
+
+        // 自機の極小中心判定の計算用変数
+        let pCenterX = player.x + player.w / 2;
+        let pCenterY = player.y + player.h / 2;
+        let pHitX = pCenterX - player.hitW / 2;
+        let pHitY = pCenterY - player.hitH / 2;
+
+        enemies.forEach((e, eIdx) => {
+            e.y += e.speed;
+            sCtx.fillStyle = 'rgba(235, 65, 105, 0.95)';
+            drawSpaceShip(sCtx, e.x, e.y, e.w, e.h, true);
+
+            e.shootTimer--;
+            if (e.shootTimer <= 0) {
+                enemyBullets.push({ x: e.x + e.w/2, y: e.y + e.h, dy: 4.2 + (sStage * 0.1) });
+                e.shootTimer = Math.random() * 75 + 45 - (sStage * 1.2);
+            }
+
+            // 【修正】敵機との接触判定を自機の極小判定(pHitX, pHitY, hitW, hitH)基準に変更
+            if (e.x < pHitX + player.hitW && e.x + e.w > pHitX && e.y < pHitY + player.hitH && e.y + e.h > pHitY) {
+                enemies.splice(eIdx, 1); sLives--; updateShootingUI(); checkGameOver();
+            }
+
+            bullets.forEach((b, bIdx) => {
+                if (b.x > e.x && b.x < e.x + e.w && b.y > e.y && b.y < e.y + e.h) {
+                    if (Math.random() < 0.25) {
+                        const types = ['W', 'S', 'P', 'O', 'L'];
+                        const chosen = types[Math.floor(Math.random() * types.length)];
+                        items.push({ x: e.x + e.w/2, y: e.y, type: chosen, size: 16 });
+                    }
+                    enemies.splice(eIdx, 1);
+                    sScore += 10; enemyKillsInStage++; updateShootingUI();
+                    if (b.type !== 'LASER') bullets.splice(bIdx, 1);
+                }
+            });
+
+            if(e.y > 495) enemies.splice(eIdx, 1);
+        });
+
+        items.forEach((it, itIdx) => {
+            it.y += 1.8;
+            sCtx.fillStyle = '#ffff00';
+            sCtx.beginPath(); sCtx.arc(it.x, it.y, it.size/2, 0, Math.PI*2); sCtx.fill();
+            sCtx.fillStyle = '#000000'; sCtx.font = 'bold 9px sans-serif';
+            sCtx.fillText(it.type, it.x - 3, it.y + 3);
+
+            // 【修正】アイテム獲得判定も自機の極小判定基準に変更
+            if (it.x > pHitX && it.x < pHitX + player.hitW && it.y > pHitY && it.y < pHitY + player.hitH) {
+                if (it.type === 'W') { currentWeapon = '3WAY'; }
+                else if (it.type === 'S') { currentWeapon = 'FAST'; }
+                else if (it.type === 'P') { currentWeapon = 'LASER'; }
+                else if (it.type === 'O') { hasOption = true; }
+                else if (it.type === 'L') { if(sLives < 5) sLives++; }
+                items.splice(itIdx, 1);
+                updateShootingUI();
+            }
+            if(it.y > 495) items.splice(itIdx, 1);
+        });
+
+        sCtx.fillStyle = '#ff3333';
+        enemyBullets.forEach((eb, ebIdx) => {
+            eb.y += eb.dy;
+            sCtx.fillRect(eb.x - 1, eb.y, 2, 8);
+
+            // 【修正】敵の弾との接触判定を自機の極小判定基準に変更
+            if (eb.x < pHitX + player.hitW && eb.x > pHitX && eb.y < pHitY + player.hitH && eb.y + 8 > pHitY) {
+                enemyBullets.splice(ebIdx, 1); sLives--; updateShootingUI(); checkGameOver();
+            }
+            if(eb.y > 495) enemyBullets.splice(ebIdx, 1);
+        });
+
+        sAnimationId = requestAnimationFrame(shootingLoop);
     }
 
-    // PC Keyboard Controls
+    // 新設：コンテニューボタンを押したときのステージ進捗処理
+    if (btnNextStage) {
+        btnNextStage.addEventListener('click', () => {
+            if (sClearModal) sClearModal.style.display = 'none';
+            sStage++; 
+            enemyKillsInStage = 0; 
+            isGoalSpawned = false; 
+            goalY = -35;
+            bullets = []; 
+            enemyBullets = []; 
+            enemies = []; 
+            items = [];
+            player.y = 410; 
+            sIsPaused = false;
+            if (btnHeaderToggle) btnHeaderToggle.innerText = "⏸";
+            updateShootingUI();
+            shootingLoop();
+        });
+    }
+
+    function checkGameOver() {
+        if(sLives <= 0) {
+            sIsGameOver = true;
+            if (sStatusText) { sStatusText.innerText = "GAME OVER"; sStatusText.style.display = 'block'; sStatusText.style.color = '#ff3333'; }
+            stopShooting();
+        }
+    }
+
+    function switchGameMode(mode) {
+        activeGameMode = mode;
+        const tetrisView = document.getElementById('tetris-view');
+        const shootingView = document.getElementById('shooting-view');
+        const tetrisGuide = document.getElementById('tetris-controls-guide');
+        const shootingGuide = document.getElementById('shooting-controls-guide');
+        const tetrisMobileArrows = document.getElementById('tetris-mobile-arrows');
+
+        if (mode === 'shooting') {
+            if(tetrisView) tetrisView.style.display = 'none';
+            if(shootingView) shootingView.style.display = 'flex';
+            if(tetrisGuide) tetrisGuide.style.display = 'none';
+            if(shootingGuide) shootingGuide.style.display = 'flex';
+            if(tetrisMobileArrows) tetrisMobileArrows.style.setProperty('display', 'none', 'important');
+            document.getElementById('btn-pc-shooting-toggle').style.background = 'rgba(255,255,255,0.2)';
+            document.getElementById('btn-mobile-shooting-toggle').style.background = 'rgba(255,255,255,0.2)';
+            initShooting();
+        } else {
+            if(tetrisView) tetrisView.style.display = 'flex';
+            if(shootingView) shootingView.style.display = 'none';
+            if(tetrisGuide) tetrisGuide.style.display = 'flex';
+            if(shootingGuide) shootingGuide.style.display = 'none';
+            if(tetrisMobileArrows) tetrisMobileArrows.style.removeAttribute('style');
+            document.getElementById('btn-pc-shooting-toggle').style.background = 'transparent';
+            document.getElementById('btn-mobile-shooting-toggle').style.background = 'transparent';
+            initTetris();
+        }
+    }
+
+    document.getElementById('btn-pc-shooting-toggle').addEventListener('click', () => { switchGameMode(activeGameMode === 'tetris' ? 'shooting' : 'tetris'); });
+    document.getElementById('btn-mobile-shooting-toggle').addEventListener('click', () => { switchGameMode(activeGameMode === 'tetris' ? 'shooting' : 'tetris'); });
+
+    // 【PC版新機能】トラックパッドおよびマウスの移動追従コントロール
+    if (sCanvas) {
+        sCanvas.addEventListener('mousemove', (e) => {
+            if (sIsPaused || sIsGameOver) return;
+            let rect = sCanvas.getBoundingClientRect();
+            let mouseX = e.clientX - rect.left;
+            let canvasMouseX = mouseX * (600 / rect.width); // 横幅600pxスケールに正確にマッピング
+            player.x = Math.max(5, Math.min(563, canvasMouseX - player.w / 2));
+        });
+
+        // モバイル環境用のタッチスワイプ追従
+        sCanvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (sIsPaused || sIsGameOver) return;
+            let rect = sCanvas.getBoundingClientRect();
+            let touchX = e.touches[0].clientX - rect.left;
+            let canvasTouchX = touchX * (600 / rect.width);
+            player.x = Math.max(5, Math.min(563, canvasTouchX - player.w / 2));
+        }, { passive: false });
+    }
+
+    // キーボードリスナー
     document.addEventListener("keydown", (e) => {
         const gameSection = document.getElementById("game");
-        if (!gameSection || !gameSection.classList.contains("active") || isGameOver) return;
+        if (!gameSection || !gameSection.classList.contains("active")) return;
 
         if (e.key === " " || e.code === "Space") {
             e.preventDefault();
-            if (isPaused) { isPaused = false; if (btnHeaderToggle) btnHeaderToggle.innerText = "⏸"; runTimer(); } 
-            else { stopTetris(); }
+            if (activeGameMode === 'tetris') {
+                if (isGameOver) return;
+                if (isPaused) { isPaused = false; if (btnHeaderToggle) btnHeaderToggle.innerText = "⏸"; runTimer(); } else { stopTetris(); }
+            } else {
+                if (sIsGameOver) return;
+                if (sIsPaused) { sIsPaused = false; if (btnHeaderToggle) btnHeaderToggle.innerText = "⏸"; shootingLoop(); } else { stopShooting(); }
+            }
             return;
         }
 
-        if (isPaused) return;
-
-        if (e.key === "ArrowLeft") { e.preventDefault(); p.moveLeft(); }
-        else if (e.key === "ArrowUp") { e.preventDefault(); p.rotate(); }
-        else if (e.key === "ArrowRight") { e.preventDefault(); p.moveRight(); }
-        else if (e.key === "ArrowDown") { e.preventDefault(); p.moveDown(); }
+        if (activeGameMode === 'tetris' && !isPaused && !isGameOver) {
+            if (e.key === "ArrowLeft") { e.preventDefault(); p.moveLeft(); }
+            else if (e.key === "ArrowUp") { e.preventDefault(); p.rotate(); }
+            else if (e.key === "ArrowRight") { e.preventDefault(); p.moveRight(); }
+            else if (e.key === "ArrowDown") { e.preventDefault(); p.moveDown(); }
+        }
+        
+        if (activeGameMode === 'shooting' && !sIsPaused && !sIsGameOver) {
+            if (e.key === "a" || e.key === "A" || e.key === "ArrowLeft") { e.preventDefault(); player.x = Math.max(5, player.x - player.speed * 2.5); }
+            else if (e.key === "d" || e.key === "D" || e.key === "ArrowRight") { e.preventDefault(); player.x = Math.min(563, player.x + player.speed * 2.5); }
+        }
     });
 
-    document.getElementById("btn-pc-start").addEventListener("click", () => { initTetris(); });
-    document.getElementById("btn-pc-stop").addEventListener("click", () => { stopTetris(); });
+    document.getElementById("btn-pc-start").addEventListener("click", () => { if(activeGameMode === 'tetris') initTetris(); else initShooting(); });
+    document.getElementById("btn-pc-stop").addEventListener("click", () => { if(activeGameMode === 'tetris') stopTetris(); else stopShooting(); });
 
     if (btnHeaderToggle) {
         btnHeaderToggle.addEventListener("click", () => {
-            if (isGameOver) {
-                initTetris();
-            } else if (isPaused) {
-                isPaused = false;
-                btnHeaderToggle.innerText = "⏸";
-                runTimer();
+            if (activeGameMode === 'tetris') {
+                if (isGameOver) initTetris();
+                else if (isPaused) { isPaused = false; btnHeaderToggle.innerText = "⏸"; runTimer(); } else stopTetris();
             } else {
-                stopTetris();
+                if (sIsGameOver) initShooting();
+                else if (sIsPaused) { sIsPaused = false; btnHeaderToggle.innerText = "⏸"; shootingLoop(); } else stopShooting();
             }
         });
     }
 
-    let mobileHoldTimer = null;
-    let mobileHoldInterval = null;
-
+    let mobileHoldTimer = null; let mobileHoldInterval = null;
     function startButtonHold(actionFunction) {
-        if (isPaused || isGameOver) return;
-        actionFunction();
-        
-        mobileHoldTimer = setTimeout(() => {
-            mobileHoldInterval = setInterval(() => {
-                if (!isPaused && !isGameOver) actionFunction();
-            }, 60);
-        }, 200);
+        if (isPaused || isGameOver) return; actionFunction();
+        mobileHoldTimer = setTimeout(() => { mobileHoldInterval = setInterval(() => { if (!isPaused && !isGameOver) actionFunction(); }, 60); }, 200);
     }
-
-    function clearButtonHold() {
-        if (mobileHoldTimer) clearTimeout(mobileHoldTimer);
-        if (mobileHoldInterval) clearInterval(mobileHoldInterval);
-    }
+    function clearButtonHold() { if (mobileHoldTimer) clearTimeout(mobileHoldTimer); if (mobileHoldInterval) clearInterval(mobileHoldInterval); }
 
     const leftBtn = document.getElementById("btn-left");
     leftBtn.addEventListener("mousedown", () => startButtonHold(() => p.moveLeft()));
     leftBtn.addEventListener("touchstart", (e) => { e.preventDefault(); startButtonHold(() => p.moveLeft()); });
-
     const rightBtn = document.getElementById("btn-right");
     rightBtn.addEventListener("mousedown", () => startButtonHold(() => p.moveRight()));
     rightBtn.addEventListener("touchstart", (e) => { e.preventDefault(); startButtonHold(() => p.moveRight()); });
-
     const downBtn = document.getElementById("btn-down");
     downBtn.addEventListener("mousedown", () => startButtonHold(() => p.moveDown()));
     downBtn.addEventListener("touchstart", (e) => { e.preventDefault(); startButtonHold(() => p.moveDown()); });
-
     document.getElementById("btn-rotate").addEventListener("click", () => { if (!isPaused && !isGameOver) p.rotate(); });
 
-    window.addEventListener("mouseup", clearButtonHold);
-    window.addEventListener("touchend", clearButtonHold);
-    window.addEventListener("touchcancel", clearButtonHold);
+    window.addEventListener("mouseup", clearButtonHold); window.addEventListener("touchend", clearButtonHold); window.addEventListener("touchcancel", clearButtonHold);
 
     const modeButtons = document.querySelectorAll(".mode-btn");
     modeButtons.forEach(btn => {
         btn.addEventListener("click", (e) => {
             modeButtons.forEach(b => b.classList.remove("active"));
             const targetSpeed = parseInt(btn.getAttribute("data-speed"), 10);
-            
-            modeButtons.forEach(b => {
-                if (parseInt(b.getAttribute("data-speed"), 10) === targetSpeed) {
-                    b.classList.add("active");
-                }
-            });
-
+            modeButtons.forEach(b => { if (parseInt(b.getAttribute("data-speed"), 10) === targetSpeed) b.classList.add("active"); });
             currentSpeed = targetSpeed;
-            if (!isPaused && !isGameOver) { runTimer(); }
+            if (activeGameMode === 'tetris' && !isPaused && !isGameOver) runTimer();
             if (mobileModal) mobileModal.classList.remove("show");
         });
     });
