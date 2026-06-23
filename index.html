@@ -17,7 +17,8 @@
             --sidebar-pc-right: 3%;     
             --sidebar-pc-top: 80px;      
 
-            --game-mobile-top: 20px;     
+            /* ▼【調整箇所1】スマホ画面全体の上部余白（約20行目） */
+            --game-mobile-top: 10px;     
             --game-mobile-scale: 0.98;   
         }
 
@@ -310,9 +311,8 @@
                 max-width: 720px;
             }
 
-            /* スマホでシューティング画面を最適化するためのスタイル */
             .shooting-container {
-                flex-direction: column !important; /* ステータスと画面を縦に並べる */
+                flex-direction: column !important; 
                 align-items: center !important;
                 justify-content: center !important;
                 width: 100vw !important;
@@ -320,16 +320,18 @@
                 padding: 10px !important;
                 gap: 10px !important;
                 box-sizing: border-box !important;
-                transform: none !important; /* スケールを解除して画面いっぱいに */
+                transform: none !important; 
             }
 
+            /* ▼【調整箇所2】スマホシューティング画面上部の余白（約290行目） */
             .shooting-side-panel-left {
-                flex-direction: row !important; /* ステータスを横並びに */
+                flex-direction: row !important; 
                 width: 100% !important;
                 justify-content: space-around !important;
                 gap: 5px !important;
                 margin-bottom: 5px !important;
-                padding-top: calc(50px + env(safe-area-inset-top)) !important;
+                /* ここの10pxを増減することでステータスUIの位置を上下できます */
+                padding-top: calc(10px + env(safe-area-inset-top)) !important;
             }
 
             .shooting-side-panel-left .panel-section {
@@ -418,7 +420,7 @@
         <section id="gallery" class="page">
             <div class="gallery-container">
                 <div class="gallery-track">
-                    <div class="gallery-slide"><img src="gallery-01.jpg" alt="作品1"><div class="work-title">「intermediation」</div></div>
+                    <div class="gallery-slide active"><img src="gallery-01.jpg" alt="作品1"><div class="work-title">「intermediation」</div></div>
                     <div class="gallery-slide"><img src="gallery-02.jpg" alt="作品2"><div class="work-title">「intermediation」</div></div>
                     <div class="gallery-slide"><img src="gallery-03.jpg" alt="作品3"><div class="work-title">「intermediation」</div></div>
                     <div class="gallery-slide"><img src="gallery-04.jpg" alt="作品4"><div class="work-title">「intermediation」</div></div>
@@ -508,7 +510,7 @@
 
                     <div class="game-controls-pc" id="shooting-controls-guide" style="display:none;">
                         <div class="pc-guide-title" style="margin-bottom:8px;">CONTROLS (SPACE)</div>
-                        <div class="pc-guide-item" style="font-size:0.6rem; color:rgba(255,255,255,0.8); line-height:1.4; margin-bottom:8px;">👉 【PC新機能】画面内をマウスやトラックパッドで左右になぞるだけで自機が滑らかに追従移動します！(A/Dや←/→キーでも操作可能)</div>
+                        <div class="pc-guide-item" style="font-size:0.6rem; color:rgba(255,255,255,0.8); line-height:1.4; margin-bottom:8px;">👉 画面内をマウスやトラックパッドで左右になぞるだけで自機が滑らかに追従移動します！(A/Dや←/→キーでも操作可能)</div>
                         <div class="pc-guide-item" style="font-size:0.55rem; color:rgba(255,255,255,0.4); line-height:1.4;">敵を倒すとドロップするアイテムカプセル(W:3方向, S:超連射, P:貫通レーザー, O:味方子機, L:回復)を拾って次々現れるステージを突破せよ！</div>
                     </div>
 
@@ -517,6 +519,10 @@
                         <div class="btn-group-row" style="margin-bottom: 8px;">
                             <button type="button" class="mode-btn active" data-speed="500">EASY</button>
                             <button type="button" class="mode-btn" data-speed="350">NORMAL</button>
+                        </div>
+                        <div class="btn-group-row">
+                            <button type="button" class="mode-btn" data-speed="200">HARD</button>
+                            <button type="button" class="mode-btn" data-speed="100">V.HARD</button>
                         </div>
                     </div>
                 </div>
@@ -534,9 +540,13 @@
                     <button type="button" class="mobile-modal-close" id="btn-modal-close">CLOSE ✕</button>
                     <div>
                         <div class="sidebar-section-title">DIFFICULTY MODE</div>
-                        <div class="btn-group-row">
+                        <div class="btn-group-row" style="margin-bottom: 8px;">
                             <button type="button" class="mode-btn active" data-speed="500">EASY</button>
                             <button type="button" class="mode-btn" data-speed="350">NORMAL</button>
+                        </div>
+                        <div class="btn-group-row">
+                            <button type="button" class="mode-btn" data-speed="200">HARD</button>
+                            <button type="button" class="mode-btn" data-speed="100">V.HARD</button>
                         </div>
                     </div>
                 </div>
@@ -808,7 +818,7 @@
     let sScore = 0; let sLives = 3; let sStage = 1;
     let sIsGameOver = false; let sIsPaused = true;
 
-    // 自機の当たり判定コアの縮小 (hitW:6, hitH:6)
+    // 自機の当たり判定コアの極小設定 (hitW:6, hitH:6)
     let player = { x: 285, y: 410, w: 32, h: 32, hitW: 6, hitH: 6, speed: 7.5 };
     let bullets = [];      
     let enemyBullets = []; 
@@ -856,7 +866,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // コア（判定の大きさ）を視覚的に確認できるよう赤ドットを描画
+        // 判定コアを視覚化（不要なら削除可）
         if (!isEnemy && !isOptionShip) {
             ctx.fillStyle = '#ff0055';
             ctx.fillRect(x + w/2 - player.hitW/2, y + h/2 - player.hitH/2, player.hitW, player.hitH);
@@ -921,7 +931,7 @@
                     sIsGameOver = true;
                     if (sStatusText) { sStatusText.innerText = "GAME CLEAR"; sStatusText.style.display = 'block'; sStatusText.style.color = '#22ee22'; }
                 }
-                return; // ループを抜ける
+                return; 
             }
         }
 
@@ -1089,25 +1099,23 @@
         const tetrisGuide = document.getElementById('tetris-controls-guide');
         const shootingGuide = document.getElementById('shooting-controls-guide');
         const tetrisMobileArrows = document.getElementById('tetris-mobile-arrows');
-        const rightSidebar = document.querySelector('.game-sidebar-right');
 
-        // !importantを用いて外部CSSの干渉を確実に防ぐ
         if (mode === 'shooting') {
-            if(tetrisView) tetrisView.style.setProperty('display', 'none', 'important');
-            if(shootingView) shootingView.style.setProperty('display', 'flex', 'important');
-            if(tetrisGuide) tetrisGuide.style.setProperty('display', 'none', 'important');
-            if(shootingGuide) shootingGuide.style.setProperty('display', 'flex', 'important');
+            if(tetrisView) tetrisView.style.display = 'none';
+            if(shootingView) shootingView.style.display = 'flex';
+            if(tetrisGuide) tetrisGuide.style.display = 'none';
+            if(shootingGuide) shootingGuide.style.display = 'flex';
             if(tetrisMobileArrows) tetrisMobileArrows.style.setProperty('display', 'none', 'important');
             
             document.getElementById('btn-pc-shooting-toggle').style.background = 'rgba(255,255,255,0.2)';
             document.getElementById('btn-mobile-shooting-toggle').style.background = 'rgba(255,255,255,0.2)';
             initShooting();
         } else {
-            if(tetrisView) tetrisView.style.setProperty('display', 'flex', 'important');
-            if(shootingView) shootingView.style.setProperty('display', 'none', 'important');
-            if(tetrisGuide) tetrisGuide.style.setProperty('display', 'flex', 'important');
-            if(shootingGuide) shootingGuide.style.setProperty('display', 'none', 'important');
-            if(tetrisMobileArrows) tetrisMobileArrows.style.setProperty('display', 'grid', 'important');
+            if(tetrisView) tetrisView.style.display = 'flex';
+            if(shootingView) shootingView.style.display = 'none';
+            if(tetrisGuide) tetrisGuide.style.display = 'flex';
+            if(shootingGuide) shootingGuide.style.display = 'none';
+            if(tetrisMobileArrows) tetrisMobileArrows.style.removeAttribute('style');
 
             document.getElementById('btn-pc-shooting-toggle').style.background = 'transparent';
             document.getElementById('btn-mobile-shooting-toggle').style.background = 'transparent';
